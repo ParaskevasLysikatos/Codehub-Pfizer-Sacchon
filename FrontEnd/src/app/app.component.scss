@@ -1,0 +1,62 @@
+
+#page-container {
+  position: relative;
+  
+ 
+  
+}
+ 
+  #content-wrap {
+    padding-bottom: 4rem;   /* Footer height */
+  
+  }
+  
+  #footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;  
+    background-color:#555555;    
+  }
+  
+  .logo-text{
+    font-size:14px;
+    padding-left: 10px;
+    font-weight: 600;
+    color:white;
+    
+  }
+
+  .logo-text2{
+    font-size:14px;
+    padding-right: 10px;
+    font-weight: 600;
+    color:white;
+  }
+
+  .logo-text3{
+    font-size:14px;
+    padding-left: 10px;
+    font-weight: 600;
+    color:white;
+  }
+  
+  .logo{
+    width:40px;
+  }
+
+  .logo2{
+    width:60px;
+  }
+  
+  .line {
+    border-left: 1px solid rgb(253, 253, 253);
+    margin-top: 5px;
+    height: 30px;
+    opacity:0.8;
+  }
+
+  .fa-globe{
+    color:#ffffff;
+    font-size:22px;
+  }
+  
