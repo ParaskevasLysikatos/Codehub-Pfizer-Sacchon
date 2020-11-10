@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {Chart} from '../../../../node_modules/chart.js/dist/chart.js';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MustMatch } from 'src/app/_helpers/must-match.validator';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +30,9 @@ export class DoctorViewPComponent implements OnInit {
   avg:AvgMClass;
   @Input() carbValues: number[];
   @Input() glucoseValues: number[];
+   bg:any;
+    ca:any;
+    d:any;
 
   constructor(private formBuilder: FormBuilder,private _router: Router,public Uservice:UserService,public mService:MeasurementsService) { }
 
@@ -40,15 +44,15 @@ export class DoctorViewPComponent implements OnInit {
             }
       )
 
-    
 
-    
+
+
 
   }
 
   get f() { return this.userForm.controls; }
-  
-  
+
+
 
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -73,7 +77,7 @@ export class DoctorViewPComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    
+
     let st =(<HTMLInputElement> document.getElementById('from')).value;
    this.mService.currentSTD.startAt = new Date(st).toISOString();
 
@@ -85,12 +89,15 @@ export class DoctorViewPComponent implements OnInit {
     this.mService.getMeasurementsData(this.mService.currentSTD).subscribe(
        data1=>{
          this.mediData=data1;
-        
+          this.bg=data1.map(data1=>data1.bloodGlucoseLevel);
+         this.ca=data1.map(data1=>data1.carbIntake);
+         this.d=data1.map(data1=>data1.measurementDate);
+
        }
-         
-       
+
+
     );
-       
+
     this.Uservice.currentAD.userID=id;
     this.Uservice.currentAD.startAt=new Date(st).toISOString();
     this.Uservice.currentAD.endAt=new Date(ed).toISOString();
@@ -99,37 +106,50 @@ export class DoctorViewPComponent implements OnInit {
         this.avg=data2;
         this.glucoseValues=data2.avgBloodGlucoseLevel;
         this.carbValues=data2.avgCarbIntake;
-        
-  
+        const datePipe = new DatePipe('en-US');
+
        // var i;
         //for( i=0;i<this.mediData.length;i++)
         this.chart = new Chart('myChart', {
           type: 'line',
           data: {
-              labels: [st,ed],  //['October','November','December'],
+              labels: [st,ed],  //['October','November','December'],v
               datasets: [{
-                  label: 'Average glucose,Average carbonates ',
-                  data: [this.glucoseValues,this.carbValues],            //[12, 19, 3], {this.mediData[i].carbIntake,}
+                  label: 'Average glucose ',
+                  data: this.bg,            //[12, 19, 3], {this.mediData[i].carbIntake,} this.mediData.map(m=>m.bloodGlucoseLevel)
                   backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)'
-                     
+                      'rgba(255, 99, 132, 0.2)'
+
+
                   ],
                   borderColor: [
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)'
-                     
+                      'rgba(255, 99, 132, 1)'
+
+
                   ],
                   borderWidth: 1
-              }]
+              },{
+                label: 'Average carbonates ',
+                data: this.ca,            //[12, 19, 3], {this.mediData[i].carbIntake,} this.mediData.map(m=>m.carbIntake)
+                backgroundColor: [
+                    'rgba(150, 39, 12, 0.2)'
+
+
+                ],
+                borderColor: [
+                    'rgba(150, 39, 12, 1)'
+
+
+                ],
+                borderWidth: 1
+            }]
           },
           options: {
               scales: {
-                  yAxes: [{
+                xAxes:[ {display:true}],
+                  yAxes: [{ display:true,
                       ticks: {
-                        max: 800,
+
                         stepSize: 20,
                           beginAtZero: true
                       }
@@ -141,8 +161,8 @@ export class DoctorViewPComponent implements OnInit {
     }
     )
          ////////////////////////////////////chart2
-       
-   
+
+
 
     alert("show measurements complete");
 

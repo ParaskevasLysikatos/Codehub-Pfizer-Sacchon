@@ -25,7 +25,7 @@ export class MeasurementsService {
   readonly urlM1="http://localhost:9000/sacchon/measurements?measurementID=";
 
   readonly patientConsultation="http://localhost:9000/sacchon/consultation";
-  
+
   addMeasurements: Measurements = {
     bloodGlucoseLevel: 0,
     carbIntake: 0,
@@ -44,7 +44,7 @@ export class MeasurementsService {
     endAt:''
   }
   postData:PostData={
-    
+
     userID:0
   }
   mID:MeasurIDClass={
@@ -61,22 +61,22 @@ export class MeasurementsService {
     userID:0,
     startAt:'',
     endAt:''
-    
+
   }
-  
+
   constructor(private http: HttpClient) { }
 
   addDataMeasurements(data: Measurements): Observable<Measurements> {
     return this.http.post<Measurements>(this.url, data, headerOption);
   }
-  getMeasurementsData(seDate:StartEndDateClass):Observable<any>{
+  getMeasurementsData(seDate:StartEndDateClass):Observable<Measurements[]>{
     return this.http.post<any>(this.urlPatient,seDate,headerOption);
   }
 
   get1M(data: number): Observable<Measurements> {
     return this.http.get<Measurements>(this.urlM1+data, headerOption);
   }
-  
+
   updateMediData(data: Measurements): Observable<Measurements>{
     return this.http.put<Measurements>(this.url,data,headerOption);
   }
