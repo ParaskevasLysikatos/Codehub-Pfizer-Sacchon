@@ -20,7 +20,7 @@
             {{myPatient?.registration_date|date}}
           </td>
           <td>
-          <a class="navbar-brand" style="cursor: pointer;" (click)="doctorConsultP(myPatient?.id)"   > 
+          <a class="navbar-brand" style="cursor: pointer;" (click)="doctorConsultP(myPatient?.id)"   >
             <img src="/assets/images/pen.jpg"  style="width:40px; padding-left: 10px;" >
           </a>
         </td>
@@ -31,38 +31,38 @@
 
   <div id="bg" style="width:100%;">
     <div class="container-fluid">
-                <div id="c" class="col-md-6 offset-md-3"> 
+                <div id="c" class="col-md-6 offset-md-3">
                   <h3 style="text-align: center;">Information submissions</h3>
                   <h5 style="margin: 5%; text-align: center;">Search for a patient activity</h5>
-                    
+
                     <form >
                         <div class="row">
-                       
-    
-                       
-                         
-  
-                        
+
+
+
+
+
+
                         <div class="form-group col-md-6">
                         <label>Date start</label>
-                        <input required type="date" id="from" onfocus="(this.type='date')" class="form-control" 
+                        <input required type="date" id="from" onfocus="(this.type='date')" class="form-control"
                         />
-                        
-                        </div> 
-                 
-                   
+
+                        </div>
+
+
                         <div class="form-group col-md-6">
                           <label>Date end</label>
-                          <input required type="date" id="until" onfocus="(this.type='date')" class="form-control" 
+                          <input required type="date" id="until" onfocus="(this.type='date')" class="form-control"
                           />
-                          
+
                           </div>
-                
-                    
+
+
                         <div class="col-md-6 offset-md-4">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary" (click)="Search(myPatient?.id)" style="margin: 4%;font-size: 18px;">Search</button>
-                            
+
                         </div>
                     </div>
                     </div>
@@ -93,7 +93,7 @@
               <th scope="col">Carb Intake</th>
               <th scope="col">Blood Glucose Level</th>
               <th scope="col">Date</th>
-              
+
             </tr>
           </thead>
           <tbody *ngFor="let medi of mediData; let i = index">
@@ -102,16 +102,20 @@
               <td >{{medi.carbIntake}}</td>
               <td >{{medi.bloodGlucoseLevel}}</td>
               <td >{{medi.measurementDate | date:'medium' }}</td>
-              
+
             </tr>
         </tbody>
         </table>
 
-        <div class="row-cols-2">
-    <div class="col-10"  style="height: 40%; width: 55%; display: block; margin-left: 5%;">
+        <div class="container-fluid " >
+    <div *ngIf="submitted2" class="col-10"  style="height: 40%; width: 55%; margin-left: 5%;">
         <canvas  id="myChart" >
-             
+
         </canvas>
       </div>
-    
-    
+      <div *ngIf="submitted2" class="col-10"  style=" height: 40%; width: 55%; margin-left: 5%;">
+        <plotly-plot [data]="graph.data" [layout]="graph.layout">
+
+        </plotly-plot>
+      </div>
+    </div>

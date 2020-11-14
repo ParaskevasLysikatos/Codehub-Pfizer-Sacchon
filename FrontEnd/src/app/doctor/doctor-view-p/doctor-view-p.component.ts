@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Chart} from '../../../../node_modules/chart.js/dist/chart.js';
+import {Chart} from 'node_modules/chart.js/dist/chart.js';
 import { NgModule } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -21,18 +21,21 @@ import { element } from 'protractor';
   styleUrls: ['./doctor-view-p.component.scss']
 })
 export class DoctorViewPComponent implements OnInit {
-  chart=[];
-  chart2=[];
+  chart=require('chart.js');;
+  mychart:Chart;
   userForm:FormGroup;
   submitted = false;
+  submitted2 = false;
   myPatient:PatientRealClass;
   mediData: Measurements[];
   avg:AvgMClass;
-  @Input() carbValues: number[];
-  @Input() glucoseValues: number[];
-   bg:any;
-    ca:any;
-    d:any;
+   carbValues: number[];
+  glucoseValues: number[];
+   bg:number[];
+    ca:number[];
+    d:string[];
+
+  graph:any;
 
   constructor(private formBuilder: FormBuilder,private _router: Router,public Uservice:UserService,public mService:MeasurementsService) { }
 
@@ -51,6 +54,7 @@ export class DoctorViewPComponent implements OnInit {
   }
 
   get f() { return this.userForm.controls; }
+
 
 
 
@@ -91,31 +95,14 @@ export class DoctorViewPComponent implements OnInit {
          this.mediData=data1;
           this.bg=data1.map(data1=>data1.bloodGlucoseLevel);
          this.ca=data1.map(data1=>data1.carbIntake);
-         this.d=data1.map(data1=>data1.measurementDate);
-
-       }
-
-
-    );
-
-    this.Uservice.currentAD.userID=id;
-    this.Uservice.currentAD.startAt=new Date(st).toISOString();
-    this.Uservice.currentAD.endAt=new Date(ed).toISOString();
-    this.Uservice.getAvgDoctor(this.Uservice.currentAD).subscribe(
-      data2=>{
-        this.avg=data2;
-        this.glucoseValues=data2.avgBloodGlucoseLevel;
-        this.carbValues=data2.avgCarbIntake;
-        const datePipe = new DatePipe('en-US');
-
-       // var i;
-        //for( i=0;i<this.mediData.length;i++)
-        this.chart = new Chart('myChart', {
+         this.d=data1.map(data1=>new Date(parseInt(data1.measurementDate)).toLocaleDateString("en-US"));
+         this.mychart = new Chart('myChart', {
           type: 'line',
           data: {
-              labels: [st,ed],  //['October','November','December'],v
+              labels: this.d
+                ,  //['October','November','December'],v
               datasets: [{
-                  label: 'Average glucose ',
+                  label: ' Glucose level ',
                   data: this.bg,            //[12, 19, 3], {this.mediData[i].carbIntake,} this.mediData.map(m=>m.bloodGlucoseLevel)
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)'
@@ -129,7 +116,7 @@ export class DoctorViewPComponent implements OnInit {
                   ],
                   borderWidth: 1
               },{
-                label: 'Average carbonates ',
+                label: 'Carbonates level ',
                 data: this.ca,            //[12, 19, 3], {this.mediData[i].carbIntake,} this.mediData.map(m=>m.carbIntake)
                 backgroundColor: [
                     'rgba(150, 39, 12, 0.2)'
@@ -158,16 +145,54 @@ export class DoctorViewPComponent implements OnInit {
           }
       });
 
-    }
-    )
-         ////////////////////////////////////chart2
+      this.graph = {
+        data: [
+            { x:  this.d, y: this.bg, type: 'scatter', mode: 'markers', marker: {color: 'red'} },
+            { x:  this.d, y: this.ca, type: 'scatter', mode: 'markers', marker: {color: 'blue'} }
+        ],
+        layout: { title: 'Glugose red, carbonates blue'}
+    };
+
+       }
+
+
+    );
+
+    this.Uservice.currentAD.userID=id;
+    this.Uservice.currentAD.startAt=new Date(st).toISOString();
+    this.Uservice.currentAD.endAt=new Date(ed).toISOString();
+    this.Uservice.getAvgDoctor(this.Uservice.currentAD).subscribe(
+      data2=>{
+        this.avg=data2;
+        this.glucoseValues=data2.avgBloodGlucoseLevel;
+        this.carbValues=data2.avgCarbIntake;
+        const datePipe = new DatePipe('en-US');
+
+       // var i;
+        //for( i=0;i<this.mediData.length;i++)
 
 
 
-    alert("show measurements complete");
+       ////////////////////////////////////chart2
+
+
+
+
+
+
+
+  }
+  )
+
+
+
+
+  this.submitted2 = true;
+  //alert("show measurements complete");
 
 
 }
+
 
 
 }

@@ -29,7 +29,9 @@ import { FrontEndGuardP } from './classes/frontEndGuardP';
 import { DoctorNavComponent } from './doctor/doctor-nav/doctor-nav.component';
 import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
 import { PatientNoActivityComponent } from './admin/patient-no-activity/patient-no-activity.component';
-
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,7 @@ import { PatientNoActivityComponent } from './admin/patient-no-activity/patient-
     FooterComponent,
     DoctorNavComponent,
     AdminNavComponent,
-    PatientNoActivityComponent,	  
+    PatientNoActivityComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -58,9 +60,10 @@ import { PatientNoActivityComponent } from './admin/patient-no-activity/patient-
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    PatientModule
-   
-    
+    PatientModule,
+    PlotlyModule
+
+
     ],
 
   providers: [UserService,FrontEndGuardD,FrontEndGuardA,FrontEndGuardP],
