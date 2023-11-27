@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Enums;
 
-enum AccountType: string
+use BenSampo\Enum\Enum;
+
+final class AccountTypeEnum extends Enum
 {
-    case ADMIN = 1;
-    case DOCTOR = 2;
-    case PATIENT = 3;
+    const ADMIN =  1;
+    const DOCTOR = 2;
+    const PATIENT = 3;
 }

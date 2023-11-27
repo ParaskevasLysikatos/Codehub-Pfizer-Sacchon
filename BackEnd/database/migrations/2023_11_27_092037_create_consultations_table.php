@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
+            $table->string('consultationMsg');
+            $table->boolean('isRead')->default(false);
+            $table->dateTime('registerDate')->default(now());
+             // Define the foreign key relationship
+             $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

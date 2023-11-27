@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('patient_doctor_associations', function (Blueprint $table) {
             $table->id();
+            $table->boolean('isActive')->default(true);
+
+            $table->foreign('patient_id')->references('id')->on('users');
+            $table->foreign('doctor_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

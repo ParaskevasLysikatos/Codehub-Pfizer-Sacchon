@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('measurements', function (Blueprint $table) {
             $table->id();
+            $table->decimal('bloodGlucoseLevel',11,2);
+            $table->decimal('carbIntake',11,2);
+            $table->dateTime('measurementDate');
+            // Define the foreign key relationship
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

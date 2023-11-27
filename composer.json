@@ -1,0 +1,5 @@
+{
+    "require": {
+        "bensampo/laravel-enum": "^6.7"
+    }
+}

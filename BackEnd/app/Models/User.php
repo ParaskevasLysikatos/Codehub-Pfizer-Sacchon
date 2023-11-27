@@ -18,9 +18,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'accountType',
+        'active',
+        'amka',
+        'mobile_phone',
+        'home_phone',
+        'gender',
+        'last_login',
         'email',
-        'password',
+        'password'
     ];
 
     /**
@@ -42,4 +50,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
+
+    public function measurements()
+    {
+        return $this->hasMany(Measurement::class);
+    }
+
 }

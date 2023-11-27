@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Measurement extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'bloodGlucoseLevel',
+        'carbIntake',
+        'measurementDate'
+    ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
