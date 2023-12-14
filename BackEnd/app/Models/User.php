@@ -21,6 +21,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'accountType',
+        'address',
         'active',
         'amka',
         'mobile_phone',

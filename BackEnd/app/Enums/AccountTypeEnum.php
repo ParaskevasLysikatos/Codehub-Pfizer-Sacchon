@@ -3,8 +3,9 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use Illuminate\Validation\Rules\Enum as RulesEnum;
 
-final class AccountTypeEnum extends Enum
+final class AccountTypeEnum extends RulesEnum
 {
     const ADMIN =  1;
     const DOCTOR = 2;

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->boolean('active')->default(true);
-            $table->string('address');
+            $table->string('address')->default('');
             $table->decimal('amka',11,0)->unique();
             $table->decimal('mobile_phone',20,0);
             $table->decimal('home_phone',20,0);

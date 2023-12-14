@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('isRead')->default(false);
             $table->dateTime('registerDate')->default(now());
              // Define the foreign key relationship
+             $table->unsignedBigInteger('user_id');
              $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
