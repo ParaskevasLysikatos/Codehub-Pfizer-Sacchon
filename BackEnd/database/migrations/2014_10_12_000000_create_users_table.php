@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('accountType', [AccountTypeEnum::ADMIN, AccountTypeEnum::DOCTOR, AccountTypeEnum::PATIENT]);
+            $table->enum('accountType', [AccountTypeEnum::ADMIN, AccountTypeEnum::DOCTOR, AccountTypeEnum::PATIENT,AccountTypeEnum::DOC_PENDING]);
 
             $table->string('first_name');
             $table->string('last_name');

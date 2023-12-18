@@ -96,5 +96,30 @@ class DatabaseSeeder extends Seeder
             'password'=>Hash::make('123456')
         ]);
 
+        // consult1
+         \App\Models\Consultation::create([
+          'consultationMsg'=> 'not good',
+          'isRead'=> true,
+           'registerDate'=> now(),
+           'user_id'=> 3,
+        ]);
+
+           // consult2
+           \App\Models\Consultation::create([
+            'consultationMsg'=> 'no more sweets for you',
+            'isRead'=> false,
+             'registerDate'=> now(),
+             'user_id'=> 3,
+          ]);
+
+
+             // consult3
+             \App\Models\Consultation::create([
+              'consultationMsg'=> 'very good nutrition',
+              'isRead'=> false,
+               'registerDate'=> now(),
+               'user_id'=> 4,
+            ]);
+
     }
 }

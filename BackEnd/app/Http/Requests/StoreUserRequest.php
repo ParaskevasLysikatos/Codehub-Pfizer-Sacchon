@@ -23,9 +23,16 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','string','max:255'],
+            'first_name'=>['required','string','max:255'],
+            'last_name'=>['required','string','max:255'],
+
             'email'=>['required','string','email','max:255','unique:users'],
-            'password'=>['required','confirmed', Password::defaults()]
+            'password'=>['required','confirmed', Password::defaults()],
+
+            'amka'=>['required','numeric','max:9','unique:users'],
+            'address'=>['required','string','max:255'],
+
+            'mobile_phone'=>['required','numeric','max:25']
         ];
     }
 }

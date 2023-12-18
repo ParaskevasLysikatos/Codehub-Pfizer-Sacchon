@@ -23,11 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 // public routes
 Route::post('/login', [AuthController::class,'login']);
-Route::post('/register', [AuthController::class,'register']);
+Route::put('/users', [AuthController::class,'register']); // 3
 
 // protected routes
 Route::group(['middleware'=> ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class,'logout']);
-    Route::post('/users', [UserController::class,'getAllUsers']);
+
+    Route::get('/users', [UserController::class,'getAllUsers']); //1
+    Route::post('/users', [UserController::class,'unreadConsult']); //2
 });
 
