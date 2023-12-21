@@ -22,12 +22,12 @@ return new class extends Migration
             $table->string('last_name');
             $table->boolean('active')->default(true);
             $table->string('address')->default('');
-            $table->decimal('amka',11,0)->unique();
-            $table->decimal('mobile_phone',20,0);
-            $table->decimal('home_phone',20,0);
+            $table->decimal('amka',9,0)->unique();
+            $table->decimal('mobile_phone',15,0);
+            $table->decimal('home_phone',15,0)->nullable(true);
 
             $table->enum('gender', [GenderEnum::MALE, GenderEnum::FEMALE, GenderEnum::NEUTRAL]);
-            $table->dateTime('last_login')->default(now());
+            $table->dateTime('last_login')->nullable(true);
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

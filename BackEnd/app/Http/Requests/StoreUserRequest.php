@@ -29,10 +29,13 @@ class StoreUserRequest extends FormRequest
             'email'=>['required','string','email','max:255','unique:users'],
             'password'=>['required','confirmed', Password::defaults()],
 
-            'amka'=>['required','numeric','max:9','unique:users'],
+            'amka'=>['required','numeric','unique:users','digits:9'],
             'address'=>['required','string','max:255'],
 
-            'mobile_phone'=>['required','numeric','max:25']
+            'mobile_phone'=>['required','numeric','digits_between:10,15'],
+
+            'gender'=>['required'],
+            'accountType'=>['required']
         ];
     }
 }

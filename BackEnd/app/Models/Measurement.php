@@ -13,6 +13,7 @@ class Measurement extends Model
     protected $fillable = [
         'bloodGlucoseLevel',
         'carbIntake',
+        'user_id',
         'measurementDate'
     ];
 

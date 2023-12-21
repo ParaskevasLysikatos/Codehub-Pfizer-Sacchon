@@ -12,6 +12,7 @@ class Consultation extends Model
     protected $fillable = [
         'consultationMsg',
         'isRead',
+        'user_id'
     ];
 
 

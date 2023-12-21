@@ -121,5 +121,41 @@ class DatabaseSeeder extends Seeder
                'user_id'=> 4,
             ]);
 
+
+             // measurement1
+         \App\Models\Measurement::create([
+            'bloodGlucoseLevel'=>10,
+            'carbIntake'=>1000,
+            'measurementDate'=>now()->addDay(-2),
+            'user_id'=>3
+          ]);
+
+            // measurement2
+         \App\Models\Measurement::create([
+            'bloodGlucoseLevel'=>11,
+            'carbIntake'=>1200,
+            'measurementDate'=>now()->addDay(-1),
+            'user_id'=>3
+          ]);
+
+
+            // measurement3
+         \App\Models\Measurement::create([
+            'bloodGlucoseLevel'=>13,
+            'carbIntake'=>700,
+            'measurementDate'=>now()->addDay(-3),
+            'user_id'=>4
+          ]);
+
+             // measurement3
+         \App\Models\Measurement::create([
+            'bloodGlucoseLevel'=>9,
+            'carbIntake'=>800,
+            'measurementDate'=>now()->addDay(-2),
+            'user_id'=>4
+          ]);
+
+
+
     }
 }

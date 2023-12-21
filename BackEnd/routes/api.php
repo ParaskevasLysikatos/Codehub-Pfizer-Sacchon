@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +32,16 @@ Route::group(['middleware'=> ['auth:sanctum']], function () {
 
     Route::get('/users', [UserController::class,'getAllUsers']); //1
     Route::post('/users', [UserController::class,'unreadConsult']); //2
+
+    Route::get('/measurements', [MeasurementController::class,'getSpecificMeasurement']); //4
+    Route::post('/measurements', [MeasurementController::class,'addMeasurement']); //5
+    Route::put('/measurements', [MeasurementController::class,'updateMeasurement']); //6
+    Route::delete('/measurements', [MeasurementController::class,'deleteMeasurement']); //7
+    Route::patch('/measurements', [MeasurementController::class,'dateMeasurement']); //8
+
+    Route::get('/profile', [UserController::class,'getProfile']); //9
+
+    Route::put('/profile', [UserController::class,'updateProfile']); //10
+
 });
 

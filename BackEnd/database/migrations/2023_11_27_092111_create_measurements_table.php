@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('bloodGlucoseLevel',11,2);
             $table->decimal('carbIntake',11,2);
-            $table->dateTime('measurementDate');
+            $table->dateTime('measurementDate')->default(now());
             // Define the foreign key relationship
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
