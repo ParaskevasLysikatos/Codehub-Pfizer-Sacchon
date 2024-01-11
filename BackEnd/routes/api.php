@@ -43,5 +43,14 @@ Route::group(['middleware'=> ['auth:sanctum']], function () {
 
     Route::put('/profile', [UserController::class,'updateProfile']); //10
 
+    Route::delete('/interacts', [UserController::class,'deleteProfile']); //11
+
+    Route::get('/patient', [UserController::class,'getAllPatients']); //12
+
+    Route::post('/patient', [MeasurementController::class,'getPatientMeasurements']); //13
+
+    Route::get('/doctors', [UserController::class,'getAllDoctors']); //14
+
+    Route::post('/interacts', [UserController::class,'findProfile']); //15
 });
 

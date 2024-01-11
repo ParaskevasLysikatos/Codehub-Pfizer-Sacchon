@@ -18,20 +18,22 @@ class UserController extends Controller
 {
     use HttpResponses;
 
-    public function getAllUsers(){
-       $users = User::all();
-       return $this->success([
-        'users'=> UserResource::collection($users)
-         ]);
+    public function getAllUsers()
+    {
+        $users = User::all();
+        return $this->success([
+            'users' => UserResource::collection($users)
+        ]);
     }
 
-    public function unreadConsult(){
+    public function unreadConsult()
+    {
         // $validated = $request->validate([
         //     'email' => 'required|email|exists:users',
         //     'password' => 'required',
         // ]);
 
-       // $user=User::where('email',$request['email'])->first();
+        // $user=User::where('email',$request['email'])->first();
 
         // if (!Hash::check($request['password'], $user->password)) {
         //     return $this->error('','Crendentials do not match',401);
@@ -39,65 +41,124 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        $consultations= Consultation::where('user_id',$user->id)->where('isRead',false)->count();
+        $consultations = Consultation::where('user_id', $user->id)->where('isRead', false)->count();
 
         return $this->success([
-            'role'=> $user->accountType,
-            'unreadConsultations'=>  $consultations
+            'role' => $user->accountType,
+            'unreadConsultations' =>  $consultations
         ]);
-
-     }
-
-
-     public function getProfile(){
-        $user = Auth::user();
-        return $this->success([
-         'user'=> new UserResource($user)
-          ]);
-     }
-
-     public function updateProfile(Request $request){
-
-        $validated = $request->validate([
-            'accountType'=>Rule::in([AccountTypeEnum::ADMIN,AccountTypeEnum::DOC_PENDING,AccountTypeEnum::PATIENT]),
-            'gender'=>Rule::in([GenderEnum::MALE,GenderEnum::FEMALE,GenderEnum::NEUTRAL]),
-            'first_name'=>['required','string','max:255'],
-            'last_name'=>['required','string','max:255'],
-
-            'email'=>['required','string','email','max:255','unique:users'],
-            'password'=>['required', Password::defaults()],
-
-            'amka'=>['required','numeric','unique:users','digits:9'],
-            'address'=>['required','string','max:255'],
-
-            'mobile_phone'=>['required','numeric','digits_between:10,15'],
-
-            'gender'=>['required'],
-            'accountType'=>['required']
-        ]);
-
-            $user=User::find(Auth::user()->id)->update([
-                'first_name'=> $request->first_name,
-                'last_name'=> $request->last_name,
-
-               'email'=> $request->email,
-               'password'=>Hash::make($request->password),
-
-                'accountType'=>$request->accountType,
-                'amka'=>$request->amka,
-
-                'mobile_phone'=>$request->mobile_phone,
-                'home_phone'=>$request->home_phone,
-                'address'=>$request->address,
-
-                'gender'=>$request->gender
-            ]);
-
-        return $this->success([
-            'user'=>$user,
-        ]);
-
     }
 
 
+    public function getProfile()
+    {
+        $user = Auth::user();
+        return $this->success([
+            'user' => new UserResource($user)
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+
+        $validated = $request->validate([
+            'accountType' => Rule::in([AccountTypeEnum::ADMIN, AccountTypeEnum::DOC_PENDING, AccountTypeEnum::PATIENT]),
+            'gender' => Rule::in([GenderEnum::MALE, GenderEnum::FEMALE, GenderEnum::NEUTRAL]),
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password'=>['required', Password::defaults()],
+
+            'amka' => ['required', 'numeric', 'unique:users', 'digits:9'],
+            'address' => ['required', 'string', 'max:255'],
+
+            'mobile_phone' => ['required', 'numeric', 'digits_between:10,15'],
+
+            'gender' => ['required'],
+            'accountType' => ['required']
+        ]);
+
+        if ($request->password) {
+            $request->validate([
+                'password' => ['required', Password::defaults()]
+            ]);
+        }
+
+        $user = User::find(Auth::user()->id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+
+            'email' => $request->email,
+            // 'password'=>Hash::make($request->password),
+
+            'accountType' => $request->accountType,
+            'amka' => $request->amka,
+
+            'mobile_phone' => $request->mobile_phone,
+            'home_phone' => $request->home_phone,
+            'address' => $request->address,
+
+            'gender' => $request->gender
+        ]);
+
+        if ($request->password) {
+            $user = User::find(Auth::user()->id)->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
+
+        return $this->success([
+            'user' => $user,
+        ]);
+    }
+
+
+    public function deleteProfile()
+    {
+        $user = Auth::user();
+        User::find($user->id)->measurements()->delete();
+        User::find($user->id)->consultations()->delete();
+        User::find($user->id)->delete();
+
+        return $this->success([
+            'user' => $user,
+        ]);
+    }
+
+    public function getAllPatients()
+    {
+        $users = User::where('accountType', AccountTypeEnum::PATIENT)->get();
+        return $this->success([
+            'patients' => UserResource::collection($users)
+        ]);
+    }
+
+    public function getAllDoctors()
+    {
+        $users = User::where('accountType', AccountTypeEnum::DOCTOR)->get();
+        return $this->success([
+            'doctors' => UserResource::collection($users)
+        ]);
+    }
+
+    public function findProfile(Request $request){
+        $validated = $request->validate([
+            'amka' => ['required', 'numeric', 'digits:9'],
+        ]);
+
+        $user=User::where('amka',$request->amka);
+
+        if ($request->accountType) {
+            $request->validate([
+                'accountType' => Rule::in([AccountTypeEnum::ADMIN, AccountTypeEnum::DOC_PENDING, AccountTypeEnum::PATIENT,AccountTypeEnum::DOCTOR])
+            ]);
+
+            $user=$user->where('accountType',$request->accountType);
+        }
+
+        return $this->success([
+            'user' => $user->first() ? new UserResource($user->first()) : null
+        ]);
+    }
 }
