@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('id')->on('users');
 
+            $table->unique(array('doctor_id', 'patient_id'));
+
             $table->timestamps();
         });
     }

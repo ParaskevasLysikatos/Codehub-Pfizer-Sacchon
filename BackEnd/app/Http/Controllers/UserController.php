@@ -6,9 +6,11 @@ use App\Enums\AccountTypeEnum;
 use App\Enums\GenderEnum;
 use App\Http\Resources\UserResource;
 use App\Models\Consultation;
+use App\Models\PatientDoctorAssociation;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -142,23 +144,134 @@ class UserController extends Controller
         ]);
     }
 
-    public function findProfile(Request $request){
+    public function findProfile(Request $request)
+    {
         $validated = $request->validate([
             'amka' => ['required', 'numeric', 'digits:9'],
         ]);
 
-        $user=User::where('amka',$request->amka);
+        $user = User::where('amka', $request->amka);
 
         if ($request->accountType) {
             $request->validate([
-                'accountType' => Rule::in([AccountTypeEnum::ADMIN, AccountTypeEnum::DOC_PENDING, AccountTypeEnum::PATIENT,AccountTypeEnum::DOCTOR])
+                'accountType' => Rule::in([AccountTypeEnum::ADMIN, AccountTypeEnum::DOC_PENDING, AccountTypeEnum::PATIENT, AccountTypeEnum::DOCTOR])
             ]);
 
-            $user=$user->where('accountType',$request->accountType);
+            $user = $user->where('accountType', $request->accountType);
         }
 
         return $this->success([
             'user' => $user->first() ? new UserResource($user->first()) : null
         ]);
+    }
+
+
+    public function getAllassociations(Request $request)
+    {
+
+        $categoryType = $request['categoryType'];
+        $result = [];
+        $assocP = PatientDoctorAssociation::where('isActive', true)->pluck('patient_id')->toArray();
+        $assocD = PatientDoctorAssociation::where('isActive', true)->pluck('doctor_id')->toArray();
+        $getAllpatients = User::where('accountType', AccountTypeEnum::PATIENT)->get();
+        $getAllDoctors = User::where('accountType', AccountTypeEnum::DOCTOR)->get();
+
+        if ($categoryType == '2') { // without doc, free patients
+
+            foreach ($getAllpatients as $pat) {
+                if (!in_array($pat['id'], $assocP)) {
+                    $resultP[] = $pat;
+                }
+            }
+
+            foreach ($getAllDoctors as $doc) {
+                if (!in_array($doc['id'], $assocD)) {
+                    $resultD[] = $doc;
+                }
+            }
+
+            return $this->success([
+                'free_patients' => $resultP,
+                'free_doctors' => $resultD
+            ]);
+        } else { // with doc , categoryType==null
+            foreach ($getAllpatients as $pat) {
+                if (in_array($pat['id'], $assocP)) {
+                    $resultP[] = $pat;
+                }
+            }
+
+            foreach ($getAllDoctors as $doc) {
+                if (in_array($doc['id'], $assocD)) {
+                    $resultD[] = $doc;
+                }
+            }
+
+            return $this->success([
+                'patient_with' => $resultP,
+                'doctors_with' => $resultD
+            ]);
+        }
+    }
+
+    public function UpdateAssociations(Request $request)
+    {
+        $validated = $request->validate([
+            'patient_id' => ['required', 'numeric', 'exists:users,id'],
+            'doctor_id' => ['required', 'numeric', 'exists:users,id'],
+            'isActive' => ['required', 'boolean'],
+        ]);
+
+        $assoc = PatientDoctorAssociation::where('doctor_id', $request->doctor_id)
+            ->where('patient_id', $request->patient_id)->first()
+            ->update([
+                'isActive' => $request->isActive,
+            ]);
+
+        return $this->success([
+            'association' => $assoc
+        ]);
+    }
+
+    public function CreateAssociations(Request $request)
+    {
+        $validated = $request->validate([
+            'patient_id' => ['required', 'numeric', 'exists:users,id'],
+            'doctor_id' => ['required', 'numeric', 'exists:users,id'],
+        ]);
+
+        $assoc = PatientDoctorAssociation::create([
+                'doctor_id' => $request->doctor_id,
+                'patient_id' => $request->patient_id
+            ]);
+
+        return $this->success([
+            'new_association' => $assoc
+        ]);
+    }
+
+    public function expired(Request $request)
+    {
+        $needDoc = $request['needDoctors'];
+
+        $result = User::query();
+
+        if ($needDoc) {
+            $result = $result->where('accountType', AccountTypeEnum::DOCTOR)
+                ->whereDate('last_login', '<', Carbon::now()->subDays(15))
+                ->get();
+
+            return $this->success([
+                'exprired' => $result
+            ]);
+        } else {
+            $result = $result->where('accountType', AccountTypeEnum::PATIENT)
+                ->whereDate('last_login', '<', Carbon::now()->subDays(15))
+                ->get();
+
+            return $this->success([
+                'exprired' => $result
+            ]);
+        }
     }
 }

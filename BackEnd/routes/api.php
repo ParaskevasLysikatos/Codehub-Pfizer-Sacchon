@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConsultController;
 use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -40,17 +41,26 @@ Route::group(['middleware'=> ['auth:sanctum']], function () {
     Route::patch('/measurements', [MeasurementController::class,'dateMeasurement']); //8
 
     Route::get('/profile', [UserController::class,'getProfile']); //9
-
     Route::put('/profile', [UserController::class,'updateProfile']); //10
-
     Route::delete('/interacts', [UserController::class,'deleteProfile']); //11
 
     Route::get('/patient', [UserController::class,'getAllPatients']); //12
-
     Route::post('/patient', [MeasurementController::class,'getPatientMeasurements']); //13
 
     Route::get('/doctors', [UserController::class,'getAllDoctors']); //14
 
     Route::post('/interacts', [UserController::class,'findProfile']); //15
+
+    Route::get('/associations', [UserController::class,'getAllassociations']); //16
+    Route::put('/associations', [UserController::class,'UpdateAssociations']); //17
+    Route::post('/associations', [UserController::class,'CreateAssociations']); //18
+
+    Route::get('/expired', [UserController::class,'expired']); //19
+
+    Route::get('/consultation', [ConsultController::class,'getConsultation']); //20
+    Route::post('/consultation', [ConsultController::class,'createConsultation']); //21
+    Route::put('/consultation', [ConsultController::class,'updateConsultation']); //22
+    Route::delete('/consultation', [ConsultController::class,'deleteConsultation']); //23
+
 });
 
