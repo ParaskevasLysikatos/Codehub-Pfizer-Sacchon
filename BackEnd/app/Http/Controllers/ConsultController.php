@@ -8,7 +8,7 @@ use App\Models\Measurement;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Carbon;
 
 class ConsultController extends Controller
 {
@@ -85,6 +85,43 @@ class ConsultController extends Controller
 
         return $this->success([
             'delete_consulation' => 'success',
+        ]);
+    }
+
+
+    public function patPeriodConsultation(Request $request)
+    {
+        $validated = $request->validate([
+            'amka' => ['required', 'numeric', 'digits:9'],
+            'startAt' => ['required', 'date'],
+            'endAt'=> ['required', 'date']
+        ]);
+
+        $userPat= User::where('amka', $request->amka)->first();
+
+        $consultations=Consultation::where('user_id',$userPat->id)->whereBetween('registerDate', [$request->startAt, $request->endAt])->get();
+
+        return $this->success([
+            'pat_consulations' => $consultations,
+        ]);
+    }
+
+    public function waitForDays(){
+
+        $consultationsLastForEveryPat=Consultation::select('user_id','registerDate')->groupBy('user_id')->latest()->get();
+
+        $consultationsWaitDays=$consultationsLastForEveryPat->map(function($con){
+           // if(Carbon::parse($con->registerDate)->diff(now())->format('%a')>4){
+            return[
+                'patient_id'=>$con->user_id,
+                'registerDate'=>$con->registerDate,
+                'daysFromLastConsultation'=>  Carbon::parse($con->registerDate)->diff(now())->format('%a')
+            ];
+       // }
+        });
+
+        return $this->success([
+            $consultationsWaitDays
         ]);
     }
 

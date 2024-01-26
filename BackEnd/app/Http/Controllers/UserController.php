@@ -30,16 +30,6 @@ class UserController extends Controller
 
     public function unreadConsult()
     {
-        // $validated = $request->validate([
-        //     'email' => 'required|email|exists:users',
-        //     'password' => 'required',
-        // ]);
-
-        // $user=User::where('email',$request['email'])->first();
-
-        // if (!Hash::check($request['password'], $user->password)) {
-        //     return $this->error('','Crendentials do not match',401);
-        // }
 
         $user = Auth::user();
 
@@ -274,4 +264,37 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function pendingDoctors(){
+
+        $pending=User::where('accountType', AccountTypeEnum::DOC_PENDING)->get();
+
+        return $this->success([
+            'pending_docs' =>  UserResource::collection($pending)
+        ]);
+    }
+
+    public function pendingDocActivate(Request $request){
+        $validated = $request->validate([
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+        ]);
+
+        $user=User::find($request->user_id);
+
+        if($user->accountType==AccountTypeEnum::DOC_PENDING){
+            $user->update([
+                'accountType' =>AccountTypeEnum::DOCTOR,
+            ]);
+
+            return $this->success([
+                'pending' =>  'pending doctor was successfully activated'
+            ]);
+
+        }
+
+        return $this->error('', 'provide please a pending doctor', 400);
+    }
+
+
+
 }

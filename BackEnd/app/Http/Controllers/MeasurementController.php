@@ -106,22 +106,58 @@ class MeasurementController extends Controller
     {
         $user = Auth::user();
 
-        if($request->id){
-            $user=User::find($request->id);
+        if ($request->id) {
+            $user = User::find($request->id);
         }
 
-        $measurements=User::find($user->id)->measurements();
+        $measurements = User::find($user->id)->measurements();
 
-        if($request->startAt){
-            $measurements= $measurements->whereDate('measurementDate', '>=', $request->startAt);
+        if ($request->startAt) {
+            $measurements = $measurements->whereDate('measurementDate', '>=', $request->startAt);
         }
-        if($request->endAt){
-            $measurements= $measurements->whereDate('measurementDate', '<=', $request->endAt);
+        if ($request->endAt) {
+            $measurements = $measurements->whereDate('measurementDate', '<=', $request->endAt);
         }
 
         return $this->success([
             'patientMeasuremnts' => $measurements->get(),
         ]);
+    }
 
+    public function measureAverage(Request $request)
+    {
+        $validated = $request->validate([
+            'amka' => ['numeric', 'digits:9'],
+            'user_id' => ['numeric', 'exists:users,id'],
+            'startAt' => ['required', 'date'],
+            'endAt' => ['required', 'date']
+        ]);
+
+        if ($request->amka) {
+            $userPat = User::where('amka', $request->amka)->first();
+        }
+
+        if ($request->id) {
+            $userPat = User::find($request->id)->first();
+        }
+
+        if (empty($request->id) && empty($request->amka)) {
+            return $this->error('', 'provide please amka or user_id', 400);
+        }
+
+        $avgCarbIntake = Measurement::where('user_id', $userPat->id)->whereBetween('measurementDate', [$request->startAt, $request->endAt])
+        ->avg('carbIntake');
+
+        $avgBloodGlucoseLevel = Measurement::where('user_id', $userPat->id)->whereBetween('measurementDate', [$request->startAt, $request->endAt])
+        ->avg('bloodGlucoseLevel');
+
+        $numberOfResults = Measurement::where('user_id', $userPat->id)->whereBetween('measurementDate', [$request->startAt, $request->endAt])
+        ->count('id');
+
+        return $this->success([
+            "avgCarbIntake" => $avgCarbIntake,
+            'avgBloodGlucoseLevel'=>$avgBloodGlucoseLevel,
+            'numberOfResults'=> $numberOfResults
+        ]);
     }
 }

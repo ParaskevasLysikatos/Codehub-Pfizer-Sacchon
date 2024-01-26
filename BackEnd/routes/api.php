@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // public routes
-Route::post('/login', [AuthController::class,'login']);
+Route::post('/login', [AuthController::class,'login']); //0
 Route::put('/users', [AuthController::class,'register']); // 3
 
 // protected routes
@@ -61,6 +61,14 @@ Route::group(['middleware'=> ['auth:sanctum']], function () {
     Route::post('/consultation', [ConsultController::class,'createConsultation']); //21
     Route::put('/consultation', [ConsultController::class,'updateConsultation']); //22
     Route::delete('/consultation', [ConsultController::class,'deleteConsultation']); //23
+    Route::patch('/consultation', [ConsultController::class,'patPeriodConsultation']); //24
+
+    Route::post('/data', [MeasurementController::class,'measureAverage']); //25
+
+    Route::get('/pending', [UserController::class,'pendingDoctors']); //26
+    Route::post('/pending', [UserController::class,'pendingDocActivate']); //27
+
+    Route::get('/wait', [ConsultController::class,'waitForDays']); //24
 
 });
 

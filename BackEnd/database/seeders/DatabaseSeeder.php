@@ -66,6 +66,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456')
         ]);
 
+
+
         // patient
         \App\Models\User::create([
             'first_name' => 'pt2',
@@ -129,7 +131,7 @@ class DatabaseSeeder extends Seeder
             'consultationMsg' => 'not good',
             'isRead' => true,
             'registerDate' => now(),
-            'user_id' => 3,
+            'user_id' => 4,
         ]);
 
         // consult2
@@ -137,7 +139,7 @@ class DatabaseSeeder extends Seeder
             'consultationMsg' => 'no more sweets for you',
             'isRead' => false,
             'registerDate' => now(),
-            'user_id' => 3,
+            'user_id' => 4,
         ]);
 
 
@@ -146,7 +148,7 @@ class DatabaseSeeder extends Seeder
             'consultationMsg' => 'very good nutrition',
             'isRead' => false,
             'registerDate' => now(),
-            'user_id' => 4,
+            'user_id' => 5,
         ]);
 
 
@@ -155,7 +157,7 @@ class DatabaseSeeder extends Seeder
             'bloodGlucoseLevel' => 10,
             'carbIntake' => 1000,
             'measurementDate' => now()->addDay(-2),
-            'user_id' => 3
+            'user_id' => 4
         ]);
 
         // measurement2
@@ -163,7 +165,7 @@ class DatabaseSeeder extends Seeder
             'bloodGlucoseLevel' => 11,
             'carbIntake' => 1200,
             'measurementDate' => now()->addDay(-1),
-            'user_id' => 3
+            'user_id' => 4
         ]);
 
 
@@ -172,7 +174,7 @@ class DatabaseSeeder extends Seeder
             'bloodGlucoseLevel' => 13,
             'carbIntake' => 700,
             'measurementDate' => now()->addDay(-3),
-            'user_id' => 4
+            'user_id' => 5
         ]);
 
         // measurement3
@@ -180,7 +182,7 @@ class DatabaseSeeder extends Seeder
             'bloodGlucoseLevel' => 9,
             'carbIntake' => 800,
             'measurementDate' => now()->addDay(-2),
-            'user_id' => 4
+            'user_id' => 5
         ]);
 
         // associations
@@ -193,6 +195,21 @@ class DatabaseSeeder extends Seeder
         \App\Models\PatientDoctorAssociation::create([
             'patient_id' => 4,
             'doctor_id' => 2,
+        ]);
+
+         // pending doc
+         \App\Models\User::create([
+            'first_name' => 'dr-pen',
+            'last_name' => 'theDr-pen',
+            'accountType' => AccountTypeEnum::DOC_PENDING,
+            'active' => true,
+            'amka' => '123456880',
+            'address' => 'street free',
+            'mobile_phone' => '22227777777777',
+            'home_phone' => '222233334444',
+            'gender' => GenderEnum::MALE,
+            'email' => 'drPen@hotmail.com',
+            'password' => Hash::make('123456')
         ]);
     }
 }
