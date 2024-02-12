@@ -1,18 +1,13 @@
-#page-container {
-  position: relative;
-}
-
 #content-wrap {
   padding-bottom: 4rem; /* Footer height */
 }
 
 #footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: #555555;
 }
-
 .logo-text {
   font-size: 14px;
   padding-left: 10px;
@@ -52,4 +47,5 @@
 .fa-globe {
   color: #ffffff;
   font-size: 22px;
+  margin-top: 10px;
 }

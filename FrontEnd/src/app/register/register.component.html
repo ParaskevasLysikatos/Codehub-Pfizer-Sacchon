@@ -1,0 +1,133 @@
+<header>
+  <app-nav></app-nav>
+  </header>
+<div id="bg" style="width:100%;">
+<div class="container-fluid">
+          <div id="c" class="col-md-6 offset-md-3">
+              <h3 style="text-align: center;">Register</h3>
+
+              <form [formGroup]="userForm" >
+                  <div class="row">
+                  <div class="form-group col-md-6">
+                      <label>First Name*</label>
+                      <input type="text" formControlName="first_name" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && first_name?.errors }" />
+                      <div *ngIf="submitted && first_name?.errors" class="invalid-feedback">
+                          <div *ngIf="first_name?.hasError('required')">First Name is required</div>
+                      </div>
+                  </div>
+
+                 <div class="form-group col-md-6">
+                      <label>Last Name*</label>
+                      <input type="text" formControlName="last_name" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && last_name?.errors }" />
+                      <div *ngIf="submitted && last_name?.errors" class="invalid-feedback">
+                          <div *ngIf="last_name?.hasError('required')">Last Name is required</div>
+                      </div>
+                  </div>
+
+
+                  <div class="form-group col-md-6">
+                      <label>Address*</label>
+                      <input type="text" formControlName="address" class="form-control"/>
+
+                  </div>
+
+                  <div class="form-group col-md-6">
+                      <label>Email*</label>
+                      <input type="text" formControlName="email" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && email?.errors }" />
+                      <div *ngIf="submitted && email?.errors" class="invalid-feedback">
+                          <div *ngIf="email?.hasError('pattern')">Email pattern is required</div>
+                          <div *ngIf="email?.hasError('required')">Email is required</div>
+                          <div *ngIf="email?.hasError('email')">Email must be a valid email address</div>
+                      </div>
+                  </div>
+
+
+                  <div class="form-group col-md-6">
+                      <label>Mobile*</label>
+                      <input type="text" (keypress)="numberOnly($event)" formControlName="mobile_phone" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && mobile_phone?.errors }" />
+                      <div *ngIf="submitted && mobile_phone?.errors" class="invalid-feedback">
+                          <div *ngIf="mobile_phone?.hasError('required')">Mobile is required</div>
+                          <div *ngIf="mobile_phone?.hasError('minlength')">Mobile must be at least 10 characters</div>
+                          <div *ngIf="mobile_phone?.hasError('maxlength')">Mobile must be 10 characters</div>
+                      </div>
+                  </div>
+
+
+                  <div class="form-group col-md-6">
+                      <label>Phone</label>
+                      <input type="text" (keypress)="numberOnly($event)" formControlName="home_phone" class="form-control"  />
+                      <div *ngIf="submitted && home_phone?.errors" class="invalid-feedback">
+                          <div *ngIf="home_phone?.hasError('minlength')">Phone must be at least 10 characters</div>
+                      </div>
+                  </div>
+
+
+
+                   <div class="form-group col-md-6">
+                      <label>Gender*</label>
+                      <select class="form-control"formControlName="gender"
+                      [ngClass]="{ 'is-invalid': submitted && gender?.errors }">
+                      <div *ngIf="submitted && gender?.errors" class="invalid-feedback">
+                      </div>
+                      <option [value]="gender.value" *ngFor="let gender of genders | keyvalue">
+                          {{gender.key}}</option>
+                      </select>
+                  </div>
+
+                   <div class="form-group col-md-6">
+                      <label>Account Type*</label>
+                      <select class="form-control"formControlName="accountType"
+                      [ngClass]="{ 'is-invalid': submitted && accountType?.errors }">
+                      <div *ngIf="submitted && accountType?.errors" class="invalid-feedback">
+                      </div>
+                         <option [value]="role.value" *ngFor="let role of roles | keyvalue">
+                             {{role.key}}</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                      <label>Amka*</label>
+                      <input (keypress)="numberOnly($event)" type="text" formControlName="amka" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && amka?.errors }" />
+                      <div *ngIf="submitted && amka?.errors" class="invalid-feedback">
+                          <div *ngIf="amka?.hasError('required')">AMKA is required</div>
+                          <div *ngIf="amka?.hasError('minlength')">AMKA must be 9 characters</div>
+                          <div *ngIf="amka?.hasError('maxlength')">AMKA must be 9 characters</div>
+                      </div>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                      <label>Password*</label>
+                      <input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && password?.errors }" />
+                      <div *ngIf="submitted && password?.errors" class="invalid-feedback">
+                          <div *ngIf="password?.hasError('required')">Password is required</div>
+                          <div *ngIf="password?.hasError('minlength')">Password must be at least 8 characters</div>
+                      </div>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                      <label>Confirm Password*</label>
+                      <input type="password" formControlName="password_confirmation" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && password_confirmation?.errors }" />
+                      <div *ngIf="submitted && password_confirmation?.errors" class="invalid-feedback">
+                          <div *ngIf="password_confirmation?.hasError('required')">Confirm Password is required</div>
+                          <div *ngIf="password_confirmation?.hasError('matchOther')">Passwords must match</div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6 offset-md-4">
+                  <div class="form-group">
+                      <button type="submit" (click)="RegisterSumbit()" class="btn btn-primary">Register</button>
+                      <a href="/" type="button" >Back</a>
+                  </div>
+              </div>
+              </div>
+              </form>
+          </div>
+      </div>
+  </div>
