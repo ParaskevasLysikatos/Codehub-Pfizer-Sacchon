@@ -1,0 +1,43 @@
+
+<app-patient-nav></app-patient-nav>
+
+<div class="container py-5 mt-5">
+    <div class="card medi-card">
+      <div class="card-body">
+      <form [formGroup]="insertform">
+
+        <h5 class="title text-left" style="padding-bottom:15px;">
+          In this page the patient would be able to insert their data
+          (blood glucose level, carb intake).
+        </h5>
+          <div class="form-group">
+            <h2 class="title">Add your medical data.</h2>
+          </div>
+
+
+          <div class="form-group">
+            <label>Carbs (grams)</label>
+            <input type="number" class="form-control" formControlName="carbIntake"
+            [ngClass]="{ 'is-invalid': submitted && carbIntake?.errors }" >
+            <div *ngIf="submitted && carbIntake?.errors" class="invalid-feedback">
+              <div *ngIf="carbIntake?.hasError('required')">Carb is required</div>
+          </div>
+          </div>
+
+          <div class="form-group">
+              <label>Glucose ( mg/dL) </label>
+              <input type="number"class="form-control" formControlName="bloodGlucoseLevel"
+              [ngClass]="{ 'is-invalid': submitted && bloodGlucoseLevel?.errors }" >
+              <div *ngIf="submitted && bloodGlucoseLevel?.errors" class="invalid-feedback">
+                <div *ngIf="bloodGlucoseLevel?.hasError('required')">Carb is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" (click)="InsertDataSumbit()">Submit</button>
+            <a routerLink="/patient" type="button" >Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

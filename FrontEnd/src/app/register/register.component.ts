@@ -98,12 +98,18 @@ export class RegisterComponent {
 
 
       this.userS.registerUser(this.userForm.value).subscribe(
-      (response:any) => console.log(response),
-          (error:any) => console.log(error));
-
-          alert('Welcome to Sacchon app!!');
-          alert('If you are Doctor yoy should wait for Chief Doctor approvement!!');
-          this.router.navigate(['login']);
+        (response:any) =>
+      {
+        console.log(response);
+        alert('Welcome to Sacchon app!!');
+        alert('If you are Doctor yoy should wait for Chief Doctor approvement!!');
+        this.router.navigate(['login']);
+      },
+        (error:any) => {
+          console.log(error);
+          alert(error);
+        }
+      )
   }
 
   numberOnly(event:any): boolean {

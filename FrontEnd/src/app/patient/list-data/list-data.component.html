@@ -1,0 +1,107 @@
+<app-patient-nav></app-patient-nav>
+
+  <div  class="container" >
+    <h2 class="title text-center" style="margin-top:50px;">Medical Data</h2>
+    <h5 class="title text-left" style="padding-bottom:15px;">
+      In this page the patient would be able to store their data
+      (blood glucose level, carb intake). Also it is important to
+      view their data in Chart.
+    </h5>
+    <div class="container" style="align-items: center;">
+      <form [formGroup]="form" >
+        <div class="form-group row">
+          <label class="col-form-label">From:</label>
+          <div class="col-sm-3 col-sm-push-4">
+            <input class="form-control" type="date"  formControlName="startAt">
+          </div>
+
+          <label for="example-date-input" class=" col-form-label">Until:</label>
+          <div class="col-sm-3 col-sm-push-4">
+            <input class="form-control" type="date"  formControlName="endAt" >
+          </div>
+
+          <div class="col-sm-2 col-sm-push-4">
+            <button type="submit" class="btn btn-primary" (click)="Search()" >Search</button>
+            <a href="/patient" type="button" >Back</a>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+
+
+    <table  class="table table-hover  table-responsive-md  text-center">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Carb Intake</th>
+          <th scope="col">Blood Glucose Level</th>
+          <th scope="col">Date</th>
+          <th scope="col">Update</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let medi of mediData; let i = index">
+        <tr>
+          <th class="scope">{{i+1}} </th>
+          <td >{{medi.carbIntake}}grams</td>
+          <td >{{medi.bloodGlucoseLevel}}mg/dL</td>
+          <td >{{medi.measurementDate | date:'medium' }}</td>
+          <td><button class="btn" data-toggle="modal" data-target="#update" type="submit" (click)="getData(medi.id ?? 0)"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></button></td>
+          <td><button class="btn" type="submit" (click)="deleteData(medi.id ?? 0)"><fa-icon [icon]="fa_trash"></fa-icon></button></td>
+        </tr>
+    </tbody>
+    </table>
+
+    <h2 class="title text-center" style="padding:10px 0 10px;">Chart Representation</h2>
+
+    <div *ngIf = "mediData">
+      <app-charts-data [carbValues]="carbIntake" [glucoseValues]="bloodGlucoseLevel" [dateValues] = "measurementDate" ></app-charts-data>
+    </div>
+     <!-- Modal -->
+<div class="modal fade "  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update measurment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container" style="align-items: center; ">
+          <form [formGroup]="modalform">
+            <div class="form-group row">
+              <label for="example-date-input" class=" col-form-label">Edit date</label>
+              <div class="form-group col-sm-3 col-sm-push-4">
+                <input class="form-control" type="date" formControlName="editD" value="{{myGetDate}}"  >
+              </div>
+
+              <div class="form-group col-sm-3 col-sm-push-4">
+                <label>Carbs (grams)</label>
+                <input type="number" class="form-control" formControlName="carbModal" value="{{mediDataObj?.carbIntake}}" >
+              </div>
+
+              <div class="form-group col-sm-3 col-sm-push-4">
+                  <label>Glucose ( mg/dL) </label>
+                  <input type="number"class="form-control" formControlName="gluModal" value="{{mediDataObj?.bloodGlucoseLevel}}" >
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateData(mediDataObj?.id ?? 0)">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+  </div>
+
+
+

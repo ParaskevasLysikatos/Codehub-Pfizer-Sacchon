@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IMeasurement } from '../Interfaces/measurements.interface';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MeasurementsService {
+
+  // Define API
+  readonly apiURL = `${environment.domain}`;
+  // Http Options
+
+  httpOptionsAuth = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+localStorage.getItem('token')
+    }),
+  };
+
+  constructor(private http: HttpClient) { }
+
+  addDataMeasurements(data:IMeasurement): Observable<any> {
+    return this.http.post<IMeasurement>(this.apiURL + 'measurements', data, this.httpOptionsAuth);
+  }
+
+  getMeasurementsData(id_stD_enD:any):Observable<{data:{patientMeasuremnts:IMeasurement[]}}>{
+    return this.http.post<any>(this.apiURL + 'patient?id='+id_stD_enD.id+'&startAt='+id_stD_enD.startAt+'&endAt='+id_stD_enD.endAt,null,this.httpOptionsAuth);
+  }
+
+  get1M(id: number): Observable<IMeasurement> {
+    return this.http.get<IMeasurement>(this.apiURL + 'measurements?measurementID='+id, this.httpOptionsAuth);
+  }
+
+  updateMediData(data: IMeasurement): Observable<IMeasurement>{
+    return this.http.put<IMeasurement>(this.apiURL + 'measurements',data,this.httpOptionsAuth);
+  }
+
+  removeMedi(id: number): Observable<IMeasurement>{
+    return this.http.delete<IMeasurement>(this.apiURL + 'measurements?measurementID='+id, this.httpOptionsAuth);
+  }
+
+}

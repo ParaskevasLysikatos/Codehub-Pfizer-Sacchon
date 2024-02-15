@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'dr1@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         \App\Models\User::create([
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'dr2@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         \App\Models\User::create([
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'dr3@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
 
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'pt2@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         \App\Models\User::create([
@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'pt1@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         \App\Models\User::create([
@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'pt3@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         //admin
@@ -123,7 +123,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'ad1@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
 
         // consult1
@@ -209,7 +209,7 @@ class DatabaseSeeder extends Seeder
             'home_phone' => '222233334444',
             'gender' => GenderEnum::MALE,
             'email' => 'drPen@hotmail.com',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('12345678')
         ]);
     }
 }

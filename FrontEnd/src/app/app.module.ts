@@ -11,6 +11,9 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { PatientModule } from './patient/patient.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     NavComponent,
     RegisterComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    PatientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
