@@ -11,4 +11,5 @@ export interface IUser {
   mobile_phone: number;
   home_phone: number;
   amka: number;
+  last_login?:string;
 }

@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,11 +9,13 @@ import { Router } from '@angular/router';
 })
 export class PatientNavComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private Uservice:UserService) { }
 
 logout(){
-  localStorage.clear();
-  this.router.navigate(['login']);
+  this.Uservice.logoutUser().subscribe( (res)=>{
+    localStorage.clear();
+    this.router.navigate(['login']);
+  });
 }
 
 

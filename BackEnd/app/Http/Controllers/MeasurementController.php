@@ -155,8 +155,8 @@ class MeasurementController extends Controller
         ->count('id');
 
         return $this->success([
-            "avgCarbIntake" => $avgCarbIntake,
-            'avgBloodGlucoseLevel'=>$avgBloodGlucoseLevel,
+            "avgCarbIntake" => number_format($avgCarbIntake, 2, '.', '') ,
+            'avgBloodGlucoseLevel'=> number_format($avgBloodGlucoseLevel, 2, '.', ''),
             'numberOfResults'=> $numberOfResults
         ]);
     }

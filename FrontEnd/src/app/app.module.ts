@@ -14,6 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { PatientModule } from './patient/patient.module';
+import { DoctorComponent } from './doctor/doctor.component';
+import { DoctorNavComponent } from './doctor/doctor-nav/doctor-nav.component';
+import { DoctorViewPComponent } from './doctor/doctor-view-p/doctor-view-p.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { PatientModule } from './patient/patient.module';
     FooterComponent,
     LoginComponent,
     LogoutComponent,
+    DoctorComponent,
+    DoctorNavComponent,
+    DoctorViewPComponent,
   ],
   imports: [
     BrowserModule,

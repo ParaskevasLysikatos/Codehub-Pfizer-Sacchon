@@ -107,7 +107,7 @@ export class RegisterComponent {
       },
         (error:any) => {
           console.log(error);
-          alert(error);
+          alert(error.error.message);
         }
       )
   }

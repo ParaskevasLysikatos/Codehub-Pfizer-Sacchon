@@ -48,7 +48,7 @@
           <td >{{medi.carbIntake}}grams</td>
           <td >{{medi.bloodGlucoseLevel}}mg/dL</td>
           <td >{{medi.measurementDate | date:'medium' }}</td>
-          <td><button class="btn" data-toggle="modal" data-target="#update" type="submit" (click)="getData(medi.id ?? 0)"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></button></td>
+          <td><button class="btn" data-toggle="modal" data-target="#update" type="submit" (click)="getData(medi.id ?? 0)"><fa-icon [icon]="fa_pen"></fa-icon></button></td>
           <td><button class="btn" type="submit" (click)="deleteData(medi.id ?? 0)"><fa-icon [icon]="fa_trash"></fa-icon></button></td>
         </tr>
     </tbody>
@@ -60,7 +60,7 @@
       <app-charts-data [carbValues]="carbIntake" [glucoseValues]="bloodGlucoseLevel" [dateValues] = "measurementDate" ></app-charts-data>
     </div>
      <!-- Modal -->
-<div class="modal fade "  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -74,20 +74,22 @@
         <div class="container" style="align-items: center; ">
           <form [formGroup]="modalform">
             <div class="form-group row">
-              <label for="example-date-input" class=" col-form-label">Edit date</label>
+
               <div class="form-group col-sm-3 col-sm-push-4">
+                <label class="col-form-label">Edit date</label>
                 <input class="form-control" type="date" formControlName="editD" value="{{myGetDate}}"  >
               </div>
 
               <div class="form-group col-sm-3 col-sm-push-4">
-                <label>Carbs (grams)</label>
+                <label class="col-form-label">Carbs (grams)</label>
                 <input type="number" class="form-control" formControlName="carbModal" value="{{mediDataObj?.carbIntake}}" >
               </div>
 
               <div class="form-group col-sm-3 col-sm-push-4">
-                  <label>Glucose ( mg/dL) </label>
+                  <label class="col-form-label">Glucose ( mg/dL) </label>
                   <input type="number"class="form-control" formControlName="gluModal" value="{{mediDataObj?.bloodGlucoseLevel}}" >
               </div>
+
             </div>
           </form>
         </div>

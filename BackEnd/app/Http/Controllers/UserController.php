@@ -42,8 +42,15 @@ class UserController extends Controller
     }
 
 
-    public function getProfile()
+    public function getProfile(Request $request)
     {
+        if($request->id){ // was sent with id, specific
+            $user=User::find($request->id)->get();
+            return $this->success([
+                'user' => new UserResource($user)
+            ]);
+        }
+        // without default
         $user = Auth::user();
         return $this->success([
             'user' => new UserResource($user)
@@ -59,10 +66,10 @@ class UserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
 
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.Auth::user()->id],
             // 'password'=>['required', Password::defaults()],
 
-            'amka' => ['required', 'numeric', 'unique:users', 'digits:9'],
+            'amka' => ['required', 'numeric', 'unique:users,amka,'.Auth::user()->id, 'digits:9'],
             'address' => ['required', 'string', 'max:255'],
 
             'mobile_phone' => ['required', 'numeric', 'digits_between:10,15'],
@@ -184,7 +191,18 @@ class UserController extends Controller
                 'free_patients' => $resultP,
                 'free_doctors' => $resultD
             ]);
-        } else { // with doc , categoryType==null
+        }
+        else if ($categoryType == '1') { // with exact doctor that calls it
+            $doctor_id=Auth::user()->id;
+            $active_assocs=PatientDoctorAssociation::where('isActive',true)->where('doctor_id',$doctor_id)->pluck('patient_id');
+            $patients=User::whereIn('id',$active_assocs)->get();
+
+            return $this->success([
+                'doctor_with_patients' => $patients,
+            ]);
+
+        }
+        else { // with doc , categoryType==null
             foreach ($getAllpatients as $pat) {
                 if (in_array($pat['id'], $assocP)) {
                     $resultP[] = $pat;

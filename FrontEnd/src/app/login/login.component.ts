@@ -48,7 +48,12 @@ export class LoginComponent {
          // console.log("unreadConsultations="+ sessionStorage.getItem("unreadConsultations"));
 
       localStorage.setItem("token",response.data.token);
+      //this.userS.subject_token$.next(response.data.token);
       localStorage.setItem("LoginRole",this.loginRole ?? '');
+
+      localStorage.setItem("amka",String( response.data.user.amka));
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("id", String( response.data.user.id));
 
       if(this.loginRole === '3')
       {this.router.navigate(['/patient']);}

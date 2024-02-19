@@ -8,6 +8,9 @@ import { PatientNavComponent } from './patient-nav/patient-nav.component';
 import { ListDataComponent } from "./list-data/list-data.component";
 import { ChartsDataComponent } from './charts-data/charts-data.component';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { AverageDataComponent } from './average-data/average-data.component';
+import { UpdateComponent } from './update/update.component';
+import { PatientConsultationComponent } from './patient-consultation/patient-consultation.component';
 
 
 
@@ -20,9 +23,12 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
      InsertDataComponent,
      ListDataComponent,
      ChartsDataComponent,
-    // AverageDataComponent,
-    // UpdateComponent,
-    //  PatientConsultationComponent
+     AverageDataComponent,
+     UpdateComponent,
+     PatientConsultationComponent,
+     AverageDataComponent,
+     UpdateComponent,
+     PatientConsultationComponent
     ],
   imports: [
     CommonModule,
@@ -32,7 +38,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     FontAwesomeModule
   ],
   exports:[
-    //InsertDataComponent
+
   ]
 })
 export class PatientModule { }

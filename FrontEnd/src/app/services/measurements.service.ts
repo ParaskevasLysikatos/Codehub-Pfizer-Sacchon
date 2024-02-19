@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IMeasurement } from '../Interfaces/measurements.interface';
 import { Observable } from 'rxjs';
+import { IConsultation } from '../Interfaces/consultation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class MeasurementsService {
     return this.http.post<any>(this.apiURL + 'patient?id='+id_stD_enD.id+'&startAt='+id_stD_enD.startAt+'&endAt='+id_stD_enD.endAt,null,this.httpOptionsAuth);
   }
 
-  get1M(id: number): Observable<IMeasurement> {
-    return this.http.get<IMeasurement>(this.apiURL + 'measurements?measurementID='+id, this.httpOptionsAuth);
+  get1M(id: number): Observable<{data:{measurement:IMeasurement}}> {
+    return this.http.get<any>(this.apiURL + 'measurements?measurementID='+id, this.httpOptionsAuth);
   }
 
   updateMediData(data: IMeasurement): Observable<IMeasurement>{
@@ -41,5 +42,13 @@ export class MeasurementsService {
   removeMedi(id: number): Observable<IMeasurement>{
     return this.http.delete<IMeasurement>(this.apiURL + 'measurements?measurementID='+id, this.httpOptionsAuth);
   }
+
+  averageDataPatient(amka_dates: any):Observable<any>{
+  return this.http.post<any>(this.apiURL + 'data', amka_dates, this.httpOptionsAuth);
+}
+
+getPatientConsultation(conId_userId:any):Observable<{data:{consultations_patient:IConsultation[]}}>{
+  return this.http.get<any>(this.apiURL + 'consultation?consultation_id='+conId_userId.id +'&user_id='+conId_userId.user_id, this.httpOptionsAuth);
+}
 
 }

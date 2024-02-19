@@ -4,9 +4,7 @@ import { IMeasurement } from '../../Interfaces/measurements.interface';
 import { MeasurementsService } from '../../services/measurements.service';
 import { DatePipe } from '@angular/common';
 import { map } from 'rxjs';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash , faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-list-data',
@@ -15,6 +13,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 })
 export class ListDataComponent {
   fa_trash = faTrash;
+  fa_pen = faPenToSquare;
 
   form: FormGroup = new FormGroup([]);
   modalform: FormGroup = new FormGroup([]);
@@ -33,8 +32,8 @@ export class ListDataComponent {
 
   constructor(public data:MeasurementsService) {
     this.form = new FormGroup({
-      startAt:new FormControl('', [Validators.required]),
-      endAt:new FormControl('', [Validators.required])
+      startAt:new FormControl(this.currentDateFormatted, [Validators.required]),
+      endAt:new FormControl(this.currentDateFormatted, [Validators.required])
     });
 
     this.modalform = new FormGroup({
@@ -42,6 +41,7 @@ export class ListDataComponent {
       carbModal:new FormControl('', [Validators.required]),
       gluModal:new FormControl('', [Validators.required])
     });
+
   }
 
    // convenience getter for easy access to form fields
@@ -67,6 +67,7 @@ export class ListDataComponent {
 
 
   ngOnInit(): void {
+    console.log(this.form.value);
     this.data.getMeasurementsData(this.tempDate).pipe(map((res)=> res.data.patientMeasuremnts)).subscribe(
       medi => {this.mediData = medi; this.fillData(this.mediData);});
 }
@@ -113,7 +114,7 @@ fillData(medi:IMeasurement[]){
 
 getData(id:number){
   console.log(id);
-  this.data.get1M(id).subscribe(
+  this.data.get1M(id).pipe(map((res)=>res.data.measurement)).subscribe(
     data1=>{
       this.mediDataObj=data1;
     this.myGetDate=this.mediDataObj.measurementDate?.split(' ')[0];
@@ -124,12 +125,14 @@ getData(id:number){
 
 updateData(id:number){
 
-    let updateDataObj={id:id,measurementDate:this.editD?.value,bloodGlucoseLevel:this.gluModal?.value,carbIntake:this.carbModal?.value};
+    let updateDataObj={measurementID:id,
+      measurementDate: String(this.editD?.value) + ' 12:00:00',
+      bloodGlucoseLevel:this.gluModal?.value,
+      carbIntake:this.carbModal?.value};
     console.log(updateDataObj);
     this.data.updateMediData(updateDataObj).subscribe(
-      (response) => console.log(response),
+      (response) => { this.ngOnInit(); console.log(response);},
       (error) => console.log(error));
-      window.location.reload();
 }
 
  deleteData(id:number){
@@ -157,6 +160,18 @@ const day = String(currentDate.getDate()).padStart(2, '0');
 const formattedDate = `${year}-${month}-${day}`;
 
 return formattedDate;
+}
+
+get currentDateFormatted(){  // html accepts yyyy-mm-dd
+  const today = new Date();
+const yyyy = String(today.getFullYear());
+let mm :any = today.getMonth() + 1; // Months start at 0!
+let dd :any = today.getDate();
+
+if (dd < 10) dd = '0' + dd;
+if (mm < 10) mm = '0' + mm;
+
+  return  yyyy + '-' + mm + '-' + dd;
 }
 
 

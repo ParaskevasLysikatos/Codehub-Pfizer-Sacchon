@@ -19,9 +19,7 @@ ngOnInit(): void {
   this.Uservice.getUserData().pipe(map(res=>res.data.user)).subscribe(
    (data:IUser)=>{
       this.userObj=data;
-     localStorage.setItem("amka",String(this.userObj.amka));
-      localStorage.setItem("email",this.userObj.email);
-      localStorage.setItem("id", String(data.id));
+    
         });
 }
 
