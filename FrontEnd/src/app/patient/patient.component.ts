@@ -16,11 +16,18 @@ export class PatientComponent {
   userObj?:IUser;
 
 ngOnInit(): void {
-  this.Uservice.getUserData().pipe(map(res=>res.data.user)).subscribe(
+  //this.userObj=this.Uservice.subject_curr_user$.value;
+  this.Uservice.getUserData(localStorage.getItem('id') ?? '').pipe(map(res=>res.data.user)).subscribe(
    (data:IUser)=>{
       this.userObj=data;
-    
+
         });
+
+  // this.Uservice.subject_curr_user$.subscribe(
+  //  (data:IUser)=>{
+  //     this.userObj=data;
+
+  //       });
 }
 
 }

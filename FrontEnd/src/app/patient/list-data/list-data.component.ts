@@ -68,7 +68,7 @@ export class ListDataComponent {
 
   ngOnInit(): void {
     console.log(this.form.value);
-    this.data.getMeasurementsData(this.tempDate).pipe(map((res)=> res.data.patientMeasuremnts)).subscribe(
+    this.data.getMeasurementsData(this.tempDate).pipe(map((res)=> res.data.patientMeasurements)).subscribe(
       medi => {this.mediData = medi; this.fillData(this.mediData);});
 }
 

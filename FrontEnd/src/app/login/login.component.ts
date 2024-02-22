@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -40,9 +41,24 @@ export class LoginComponent {
           return;
       }
 
-      this.userS.loginUser(this.loginForm.value).subscribe(
+      this.userS.loginUser(this.loginForm.value).pipe(finalize(()=>{
+        if(this.loginRole === '3')
+        {this.router.navigate(['/patient']);}
+
+        else if(this.loginRole === '2')
+        {this.router.navigate(['/doctor']);}
+
+        else if(this.loginRole === '1')
+        {this.router.navigate(['/admin']);}
+
+        else {
+          this.router.navigate(['/login']);
+          window.alert("no role found that is valid, wait for admin if you are a new registered doctor");
+        }
+      })).subscribe(
         (response)=>{
           console.log(response);
+          this.userS.subject_curr_user$=response.data.user;
            this.loginRole = response.data.user.accountType;
          // sessionStorage.setItem("unreadConsultations",response.unreadConsultations);
          // console.log("unreadConsultations="+ sessionStorage.getItem("unreadConsultations"));
@@ -54,21 +70,6 @@ export class LoginComponent {
       localStorage.setItem("amka",String( response.data.user.amka));
       localStorage.setItem("email", response.data.user.email);
       localStorage.setItem("id", String( response.data.user.id));
-
-      if(this.loginRole === '3')
-      {this.router.navigate(['/patient']);}
-
-      else if(this.loginRole === '2')
-      {this.router.navigate(['/doctor']);}
-
-      else if(this.loginRole === '1')
-      {this.router.navigate(['/admin']);}
-
-      else {
-        this.router.navigate(['/login']);
-        window.alert("no role found that is valid, wait for admin if you are a new registered doctor");
-      }
-
       },
         (error)=>{window.alert(error.error.message)}
       );

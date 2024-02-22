@@ -27,7 +27,7 @@ export class MeasurementsService {
     return this.http.post<IMeasurement>(this.apiURL + 'measurements', data, this.httpOptionsAuth);
   }
 
-  getMeasurementsData(id_stD_enD:any):Observable<{data:{patientMeasuremnts:IMeasurement[]}}>{
+  getMeasurementsData(id_stD_enD:any):Observable<{data:{patientMeasurements:IMeasurement[]}}>{
     return this.http.post<any>(this.apiURL + 'patient?id='+id_stD_enD.id+'&startAt='+id_stD_enD.startAt+'&endAt='+id_stD_enD.endAt,null,this.httpOptionsAuth);
   }
 
@@ -47,8 +47,20 @@ export class MeasurementsService {
   return this.http.post<any>(this.apiURL + 'data', amka_dates, this.httpOptionsAuth);
 }
 
-getPatientConsultation(conId_userId:any):Observable<{data:{consultations_patient:IConsultation[]}}>{
-  return this.http.get<any>(this.apiURL + 'consultation?consultation_id='+conId_userId.id +'&user_id='+conId_userId.user_id, this.httpOptionsAuth);
+getPatientConsultation(conId_userId:any):Observable<any>{
+  return this.http.get<any>(this.apiURL + 'consultation?consultation_id='+(conId_userId.id ?? '' )+'&user_id='+(conId_userId.user_id ?? ''), this.httpOptionsAuth);
 }
+
+createCon(conMsg_userId:any){
+    return this.http.post<IConsultation>(this.apiURL + 'consultation?consultationMsg='+conMsg_userId.consultationMsg+'&user_id='+conMsg_userId.user_id,null,this.httpOptionsAuth);
+}
+
+editCon(editC:any):Observable<IConsultation>{
+    return this.http.put<any>(this.apiURL + 'consultation',editC,this.httpOptionsAuth);
+  }
+
+deleteCon(cid:number):Observable<any>{
+      return this.http.delete<any>(this.apiURL + 'consultation?id='+cid,this.httpOptionsAuth);
+    }
 
 }

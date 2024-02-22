@@ -1,6 +1,6 @@
+import { IUser } from './../Interfaces/user.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUser } from '../Interfaces/user.interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -19,11 +19,23 @@ export class UserService {
 
 
 
-  subject_token$ = new BehaviorSubject("");
-  subject_LoginRole$ = new BehaviorSubject(0);
-  subject_amka$ = new BehaviorSubject(0);
-  subject_email$ = new BehaviorSubject("");
-  subject_id$ = new BehaviorSubject(0);
+  subject_curr_user$ = new BehaviorSubject({
+    "id": 0,
+    "accountType": 0,
+    "first_name": "",
+    "last_name": "",
+    "active": '',
+    "address": "",
+    "amka": 0,
+    "mobile_phone": 0,
+    "home_phone": 0,
+    "gender": 0,
+    "last_login": "",
+    "email": "",
+    "email_verified_at": null,
+    "created_at": "",
+    "updated_at": ""
+});
 
 
   httpOptionsAuth = {
@@ -47,9 +59,8 @@ export class UserService {
     return this.http.post(this.apiURL + 'login',email_password,this.httpOptions);
   }
 
-  getUserData(id?:number|null):Observable<any>{
-    console.log(this.subject_token$.value);
-    return this.http.get(this.apiURL + 'profile?id='+id,this.httpOptionsAuth);
+  getUserData(id:number|string):Observable<any>{
+    return this.http.get(this.apiURL + 'profile?id='+(id ?? ''),this.httpOptionsAuth);
   }
 
   editUserData(user:IUser):Observable<IUser>{
@@ -63,6 +74,10 @@ export class UserService {
 
   getDocAssocPatients(type:number):Observable<any>{ // 2 is free, null is with, 1 is with specific doc
     return this.http.get(this.apiURL + 'associations?categoryType='+type,this.httpOptionsAuth);
+  }
+
+  addFreePatient(docId_patId:any):Observable<any>{
+      return this.http.post<any>(this.apiURL + 'associations',docId_patId,this.httpOptionsAuth);
   }
 
 }

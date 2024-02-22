@@ -120,7 +120,7 @@ class MeasurementController extends Controller
         }
 
         return $this->success([
-            'patientMeasuremnts' => $measurements->get(),
+            'patientMeasurements' => $measurements->get(),
         ]);
     }
 

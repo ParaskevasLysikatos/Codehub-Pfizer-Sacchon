@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { IUser } from '../../Interfaces/user.interface';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-nav',
@@ -15,7 +16,7 @@ export class DoctorNavComponent {
 
 
   ngOnInit() {
-    this.Uservice.getUserData().subscribe(
+    this.Uservice.getUserData('').pipe(map((res)=>res.data.user)).subscribe(
       data=>{
         this.userObj1=data;
       });

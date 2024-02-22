@@ -18,6 +18,16 @@ import { DoctorComponent } from './doctor/doctor.component';
 import { DoctorNavComponent } from './doctor/doctor-nav/doctor-nav.component';
 import { DoctorViewPComponent } from './doctor/doctor-view-p/doctor-view-p.component';
 
+import { PlotlyModule } from 'angular-plotly.js';
+
+import * as PlotlyJS from 'plotly.js-dist-min';
+import { DoctorConsultPComponent } from './doctor/doctor-consult-p/doctor-consult-p.component';
+import { DoctorAccComponent } from './doctor/doctor-acc/doctor-acc.component';
+import { DoctorAddPComponent } from './doctor/doctor-add-p/doctor-add-p.component';
+import { FrontEndGuardA } from './services/guardA';
+
+PlotlyModule.plotlyjs = PlotlyJS;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +40,9 @@ import { DoctorViewPComponent } from './doctor/doctor-view-p/doctor-view-p.compo
     DoctorComponent,
     DoctorNavComponent,
     DoctorViewPComponent,
+    DoctorConsultPComponent,
+    DoctorAccComponent,
+    DoctorAddPComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +52,8 @@ import { DoctorViewPComponent } from './doctor/doctor-view-p/doctor-view-p.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PatientModule
+    PatientModule,
+    PlotlyModule
   ],
   providers: [],
   bootstrap: [AppComponent]

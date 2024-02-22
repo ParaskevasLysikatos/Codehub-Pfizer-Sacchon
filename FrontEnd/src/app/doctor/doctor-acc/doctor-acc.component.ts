@@ -1,29 +1,28 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '../../Interfaces/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
 import { MatchOtherValidator } from '../../_helpers/must-match.validator';
 
 @Component({
-  selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrl: './update.component.scss'
+  selector: 'app-doctor-acc',
+  templateUrl: './doctor-acc.component.html',
+  styleUrl: './doctor-acc.component.scss'
 })
-export class UpdateComponent {
+export class DoctorAccComponent {
 
   userForm:FormGroup = new FormGroup([]);
   submitted = false;
   genders = {'NA':3,'FEMALE':2, 'MALE':1};
 
-
-  constructor(private _router: Router,public Uservice:UserService) { }
-
   selectedGender = '';
 	onSelected(value:string): void {
 		this.selectedGender = value;
 	}
+
+
+  constructor(private _router: Router,public Uservice:UserService) { }
 
   ngOnInit() {
 
@@ -46,7 +45,8 @@ export class UpdateComponent {
 
   }
   // convenience getter for easy access to form fields
-  get first_name() {
+   // convenience getter for easy access to form fields
+   get first_name() {
     return this.userForm.get('first_name');
   }
 
@@ -86,7 +86,6 @@ export class UpdateComponent {
     return this.userForm?.get('password_confirmation') as FormControl;
   }
 
-
   numberOnly(event:any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -97,12 +96,12 @@ export class UpdateComponent {
   }
 
   getUserData(){
-  this.Uservice.getUserData('').pipe(map((res)=>res.data.user)).subscribe(
-    data=>{ this.userForm.patchValue(data);console.log(data.gender); this.submitted = false;});
+    this.Uservice.getUserData('').pipe(map((res)=>res.data.user)).subscribe(
+      data=>{ this.userForm.patchValue(data);console.log(data.gender); this.submitted = false;});
       }
 
 
-    editPatient(){
+  editDoctor(){
 
     this.submitted = true;
     console.log("pressed");
@@ -117,16 +116,15 @@ export class UpdateComponent {
     Obj['amka']=localStorage.getItem('amka');
 
    this.Uservice.editUserData(Obj).subscribe(
-     (data:any)=>{
+    (data:any)=>{
       alert('update success');
       this.ngOnInit();
       }, error=>alert(error.error.message)
-      );
-
+   );
   }
 
 
-  deletePatient(){
+  deleteDoctor(){
     this.Uservice.deleteUser().subscribe(
       res=>{
         localStorage.clear();
@@ -135,6 +133,5 @@ export class UpdateComponent {
       },error=>alert(error.error.message)
     );
   }
-
 
 }

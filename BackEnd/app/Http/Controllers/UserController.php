@@ -44,8 +44,9 @@ class UserController extends Controller
 
     public function getProfile(Request $request)
     {
+
         if($request->id){ // was sent with id, specific
-            $user=User::find($request->id)->get();
+            $user=User::where('id',$request->id)->first();
             return $this->success([
                 'user' => new UserResource($user)
             ]);
@@ -118,6 +119,10 @@ class UserController extends Controller
         $user = Auth::user();
         User::find($user->id)->measurements()->delete();
         User::find($user->id)->consultations()->delete();
+        PatientDoctorAssociation::where('patient_id',$user->id)->orWhere('doctor_id',$user->id)->update([
+            'isActive'=>0
+        ]);
+        Auth::user()->currentAccessToken()->delete();
         User::find($user->id)->delete();
 
         return $this->success([
@@ -188,8 +193,8 @@ class UserController extends Controller
             }
 
             return $this->success([
-                'free_patients' => $resultP,
-                'free_doctors' => $resultD
+                'free_patients' => $resultP ?? [],
+                'free_doctors' => $resultD ?? []
             ]);
         }
         else if ($categoryType == '1') { // with exact doctor that calls it
@@ -216,8 +221,8 @@ class UserController extends Controller
             }
 
             return $this->success([
-                'patient_with' => $resultP,
-                'doctors_with' => $resultD
+                'patient_with' => $resultP ?? [],
+                'doctors_with' => $resultD ?? []
             ]);
         }
     }

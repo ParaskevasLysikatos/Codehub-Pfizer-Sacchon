@@ -1,116 +1,153 @@
 <app-doctor-nav></app-doctor-nav>
 
-  <h3 style="text-align: center;">Measurements records</h3>
-  <div style="width: 60%; text-align: center; margin-left:5%;">
-    <h5 class="display-5" style="padding: 1% ;text-align: left;">Patient's profile</h5>
-    <table class="table table-hover table-responsive-sm " >
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">First&LastName</th>
-          <th scope="col">Email</th>
-          <th scope="col">Registration Date</th>
-          <th scope="col">Consult patient</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{myPatient?.first_name}}&nbsp;{{myPatient?.last_name}}</td>
-          <td>{{myPatient?.email}}</td>
-          <td>
-            {{myPatient?.last_login|date}}
-          </td>
-          <td>
-          <a class="navbar-brand" style="cursor: pointer;" (click)="doctorConsultP(myPatient?.id ?? 0)"   >
-            <img src="/assets/images/pen.jpg"  style="width:40px; padding-left: 10px;" >
+<h3 style="text-align: center">Measurements records</h3>
+<div style="width: 60%; text-align: center; margin-left: 5%">
+  <h5 class="display-5" style="padding: 1%; text-align: left">
+    Patient's profile
+  </h5>
+  <table class="table table-hover table-responsive-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">First&LastName</th>
+        <th scope="col">Email</th>
+        <th scope="col">Last login</th>
+        <th scope="col">Consult patient</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ myPatient?.first_name }}&nbsp;{{ myPatient?.last_name }}</td>
+        <td>{{ myPatient?.email }}</td>
+        <td>
+          {{ myPatient?.last_login | date }}
+        </td>
+        <td>
+          <a
+            class="navbar-brand"
+            style="cursor: pointer"
+            (click)="doctorConsultP(myPatient?.id ?? 0)"
+          >
+            <img
+              src="/assets/images/pen.jpg"
+              style="width: 40px; padding-left: 10px"
+            />
           </a>
         </td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-  <div id="bg" style="width:100%;">
-    <div class="container-fluid">
-                <div id="c" class="col-md-6 offset-md-3">
-                  <h3 style="text-align: center;">Information submissions</h3>
-                  <h5 style="margin: 5%; text-align: center;">Search for a patient activity</h5>
+<div id="bg" style="width: 100%">
+  <div class="container-fluid">
+    <div id="c" class="col-md-6 offset-md-3">
+      <h3 style="text-align: center">Information submissions</h3>
+      <h5 style="margin: 5%; text-align: center">
+        Search for a patient activity
+      </h5>
 
-                    <form >
-                        <div class="row">
-
-                        <div class="form-group col-md-6">
-                        <label>Date start</label>
-                        <input required type="date" id="from" onfocus="(this.type='date')" class="form-control"
-                        />
-
-                        </div>
-
-
-                        <div class="form-group col-md-6">
-                          <label>Date end</label>
-                          <input required type="date" id="until" onfocus="(this.type='date')" class="form-control"
-                          />
-
-                          </div>
-
-
-                        <div class="col-md-6 offset-md-4">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary" (click)="Search(myPatient?.id ?? 0)" style="margin: 4%;font-size: 18px;">Search</button>
-
-                        </div>
-                    </div>
-                    </div>
-                    </form>
-                </div>
+      <form [formGroup]="userForm">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Date start</label>
+            <input
+              type="date"
+              onfocus="(this.type='date')"
+              formControlName="startAt"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && startAt?.errors }"
+            />
+            <div *ngIf="submitted && startAt?.errors" class="invalid-feedback">
+              <div *ngIf="startAt?.hasError('required')">Carb is required</div>
             </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Date end</label>
+            <input
+              type="date"
+              formControlName="endAt"
+              onfocus="(this.type='date')"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && endAt?.errors }"
+            />
+            <div *ngIf="submitted && endAt?.errors" class="invalid-feedback">
+              <div *ngIf="endAt?.hasError('required')">Carb is required</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 offset-md-4">
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="Search(myPatient?.id ?? 0)"
+                style="margin: 4%; font-size: 18px"
+              >
+                Search
+              </button>
+            </div>
+          </div>
         </div>
-
-
-        <div  class="container" style="margin: 1%; margin-left: 5%; width: 60%;" >
-          <div class="row">
-            <div class="col-sm-3" >
-              <h6>Number Of Results:&nbsp; {{avg?.numberOfResults}}</h6>
-            </div>
-            <div class="col-sm-3">
-        <h6>Average Glucose:&nbsp; {{avg?.avgBloodGlucoseLevel}}&nbsp; mg/dL</h6>
-      </div>
-      <div class="col-sm-3">
-        <h6>Average Carbonates:&nbsp;{{avg?.avgCarbIntake}}&nbsp; mg/dL</h6>
-      </div>
-      </div>
-      </div>
-
-        <table style="margin: 5%; width: 60%;" id="myTable" class="table table-hover  table-responsive-md  text-center">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Carb Intake</th>
-              <th scope="col">Blood Glucose Level</th>
-              <th scope="col">Date</th>
-
-            </tr>
-          </thead>
-          <tbody *ngFor="let medi of mediData; let i = index">
-            <tr>
-              <th class="scope">{{i+1}} </th>
-              <td >{{medi.carbIntake}}</td>
-              <td >{{medi.bloodGlucoseLevel}}</td>
-              <td >{{medi.measurementDate | date:'medium' }}</td>
-
-            </tr>
-        </tbody>
-        </table>
-
-        <div class="container-fluid " >
-    <div *ngIf="submitted2" class="col-10"  style="height: 40%; width: 55%; margin-left: 5%;">
-        <canvas  id="myChart" >
-
-        </canvas>
-      </div>
-      <div *ngIf="submitted2" class="col-10"  style=" height: 40%; width: 55%; margin-left: 5%;">
-        <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout">
-
-        </plotly-plot> -->
-      </div>
+      </form>
     </div>
+  </div>
+</div>
+
+<div class="container" style="margin: 1%; margin-left: 5%; width: 60%">
+  <div class="row">
+    <div class="col-sm-3">
+      <h6>Number Of Results:&nbsp; {{ avg?.numberOfResults }}</h6>
+    </div>
+    <div class="col-sm-3">
+      <h6>
+        Average Glucose:&nbsp; {{ avg?.avgBloodGlucoseLevel }}&nbsp; mg/dL
+      </h6>
+    </div>
+    <div class="col-sm-3">
+      <h6>Average Carbonates:&nbsp;{{ avg?.avgCarbIntake }}&nbsp; mg/dL</h6>
+    </div>
+  </div>
+</div>
+
+<table
+  style="margin: 5%; width: 60%"
+  id="myTable"
+  class="table table-hover table-responsive-md text-center"
+>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Carb Intake</th>
+      <th scope="col">Blood Glucose Level</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let medi of mediData; let i = index">
+    <tr>
+      <th class="scope">{{ i + 1 }}</th>
+      <td>{{ medi.carbIntake }}</td>
+      <td>{{ medi.bloodGlucoseLevel }}</td>
+      <td>{{ medi.measurementDate | date : "medium" }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="container-fluid">
+  <div
+    *ngIf="submitted"
+    class="col-10"
+    style="height: 45%; width: 85%; margin-left: 5%;"
+  >
+    <canvas id="myChart"> </canvas>
+  </div>
+  <div
+    *ngIf="submitted2"
+    class="col-10"
+    style="height: 45%; width: 85%; margin-left: 5%;margin-bottom: 5%;"
+  >
+    <plotly-plot [data]="graph?.data" [layout]="graph?.layout">
+
+        </plotly-plot>
+  </div>
+</div>

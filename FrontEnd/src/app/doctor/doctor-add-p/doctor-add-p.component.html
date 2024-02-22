@@ -1,0 +1,33 @@
+<app-doctor-nav></app-doctor-nav>
+
+  <h3 style="text-align: center;">Not yet supervised patients</h3>
+
+  <div style="width: 70%; text-align: center; margin-left:5%;">
+    <h4 class="display-5" style="padding: 1% ;">Patients Information</h4>
+    <table class="table table-hover table-responsive-sm " >
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First&LastName</th>
+          <th scope="col">Last login Date</th>
+          <th scope="col">View patient measurements</th>
+          <th scope="col">Add patient for consultation</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let freeP of freePatientList; let i = index;">
+        <tr>
+          <th scope="row">{{i+1}}</th>
+          <td>{{freeP.first_name}}&nbsp;{{''+freeP.last_name}}</td>
+          <td>{{freeP.last_login|date}}</td>
+          <td>
+            <a class="navbar-brand" style="cursor: pointer;" (click)="doctorViewP(freeP.id ?? 0)" >
+              <img src="/assets/images/seeData.png"  style="width:40px; padding-left: 10px;" >
+            </a>
+          </td>
+          <td>
+          <button class="btn btn-primary" (click)="addPatient(freeP.id ?? 0)" type="submit">Add patient</button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>

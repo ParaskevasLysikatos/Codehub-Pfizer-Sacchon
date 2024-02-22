@@ -6,8 +6,8 @@ export interface IUser {
   email: string;
   gender: number;
   accountType: number;
-  password: string;
-  password_confirmation: string;
+  password?: string;
+  password_confirmation?: string;
   mobile_phone: number;
   home_phone: number;
   amka: number;
