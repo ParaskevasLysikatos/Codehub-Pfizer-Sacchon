@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  domain: "http://localhost/codehub-sacchon-new/BackEnd/public/api/"
+  domain: "https://sacchon-backend-production.up.railway.app/api/"
 };
