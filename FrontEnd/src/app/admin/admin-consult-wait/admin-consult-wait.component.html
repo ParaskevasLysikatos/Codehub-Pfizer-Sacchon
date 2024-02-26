@@ -1,0 +1,38 @@
+<app-admin-nav></app-admin-nav>
+
+<div id="border" class="container">
+<div  class="container">
+  <h5 class="title text-center" style="padding-bottom:15px;">
+    In this page as a Chief Doctor would be able to view
+    the list of the patients who are waiting for
+    a consultation and the over 30 Days.
+  </h5>
+</div>
+            <div class="container">
+              <h5 class="display-5" style="padding: 1% ;text-align: Center;">Patient activity
+                </h5>
+              <table id="search" class="table table-hover table-responsive-sm " >
+                <thead class="thead-dark">
+
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Register Date</th>
+                    <th scope="col">Days from Last Consultation</th>
+
+                  </tr>
+                </thead>
+                <tbody *ngFor="let medi of mediData; let i = index">
+                  <tr>
+                    <th class="scope">{{i+1}} </th>
+                    <td >{{medi.patient_info.first_name}}</td>
+                    <td >{{medi.patient_info.last_name}}</td>
+                    <td >{{medi.registerDate | date : "medium" }}</td>
+                    <td >{{medi.daysFromLastConsultation}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>

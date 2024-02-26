@@ -18,7 +18,6 @@ export class UserService {
   };
 
 
-
   subject_curr_user$ = new BehaviorSubject({
     "id": 0,
     "accountType": 0,
@@ -37,11 +36,28 @@ export class UserService {
     "updated_at": ""
 });
 
+subject_curr_userClear$ = new BehaviorSubject({
+  "id": 0,
+  "accountType": 0,
+  "first_name": "",
+  "last_name": "",
+  "active": '',
+  "address": "",
+  "amka": 0,
+  "mobile_phone": 0,
+  "home_phone": 0,
+  "gender": 0,
+  "last_login": "",
+  "email": "",
+  "email_verified_at": null,
+  "created_at": "",
+  "updated_at": ""
+});
 
   httpOptionsAuth = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+localStorage.getItem('token')//this.subject_token$.value
+      'Authorization': 'Bearer '+localStorage.getItem('token')
     }),
   };
 

@@ -4,6 +4,7 @@ import { IMeasurement } from '../../Interfaces/measurements.interface';
 import { Router } from '@angular/router';
 import { MeasurementsService } from '../../services/measurements.service';
 import { map } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-average-data',
@@ -16,11 +17,11 @@ export class AverageDataComponent {
   mediData?: any;
   submitted = false;
 
-  constructor(public data:MeasurementsService,private router: Router) { }
+  constructor(public data:MeasurementsService,private router: Router,private Uservice:UserService) { }
 
   ngOnInit(): void {
     this.form=new FormGroup({
-      amka:new FormControl(localStorage.getItem('amka'), [Validators.required, Validators.minLength(9),Validators.maxLength(9)]),
+      amka:new FormControl(this.Uservice.subject_curr_user$.value.amka, [Validators.required, Validators.minLength(9),Validators.maxLength(9)]),
       startAt:new FormControl(),
       endAt: new FormControl()
   });

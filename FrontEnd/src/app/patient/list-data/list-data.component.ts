@@ -5,6 +5,7 @@ import { MeasurementsService } from '../../services/measurements.service';
 import { DatePipe } from '@angular/common';
 import { map } from 'rxjs';
 import { faTrash , faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-list-data',
@@ -18,7 +19,7 @@ export class ListDataComponent {
   form: FormGroup = new FormGroup([]);
   modalform: FormGroup = new FormGroup([]);
 
-  tempDate={id:localStorage.getItem('id'),startAt:this.formatDate(new Date()),endAt:this.formatDate(new Date)};
+  tempDate={id:String(this.Uservice.subject_curr_user$.value.id),startAt:this.formatDate(new Date()),endAt:this.formatDate(new Date)};
 
   mediData: IMeasurement[]=[];
   mediDataObj?: IMeasurement;
@@ -30,7 +31,7 @@ export class ListDataComponent {
   bloodGlucoseLevel:number[] = [];
   measurementDate: string[] = [];
 
-  constructor(public data:MeasurementsService) {
+  constructor(public data:MeasurementsService,private Uservice:UserService) {
     this.form = new FormGroup({
       startAt:new FormControl(this.currentDateFormatted, [Validators.required]),
       endAt:new FormControl(this.currentDateFormatted, [Validators.required])

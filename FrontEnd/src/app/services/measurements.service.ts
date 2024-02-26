@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -21,7 +22,7 @@ export class MeasurementsService {
     }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addDataMeasurements(data:IMeasurement): Observable<any> {
     return this.http.post<IMeasurement>(this.apiURL + 'measurements', data, this.httpOptionsAuth);

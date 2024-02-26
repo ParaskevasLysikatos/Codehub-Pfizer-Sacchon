@@ -1,0 +1,36 @@
+
+<nav class="nav-header sticky-top py-1" style="background-color: #555555;">
+  <div class="container d-flex flex-column flex-md-row justify-content-between">
+    <li class="py-2 d-none d-md-inline-block" id="account">Admin Homepage
+      <a class="navbar-brand" routerLink="/admin" >
+        <img src="/assets/images/docHome.png"  style="width:40px; padding-left: 10px;" >
+      </a>
+    </li>
+    <li class="py-2 d-none d-md-inline-block" id="account">Consult Pending
+      <a class="navbar-brand" routerLink="/adminConW" >
+        <img src="/assets/images/consult.png"  style="width:40px; padding-left: 10px;" >
+      </a>
+    </li>
+    <li class="py-2 d-none d-md-inline-block" id="account">Doctor Activity
+      <a class="navbar-brand" routerLink="/adminNoA" >
+        <img src="/assets/images/monitor.png"  style="width:40px; padding-left: 10px;" >
+      </a>
+    </li>
+    <li class="py-2 d-none d-md-inline-block" id="account">Patient Activity
+      <a class="navbar-brand" routerLink="/adminNoP" >
+        <img src="/assets/images/monitor.png"  style="width:40px; padding-left: 10px;" >
+      </a>
+    </li>
+    <li class="py-2 d-none d-md-inline-block" id =home  > Sacchon logout
+      <a class="navbar-brand" style="cursor: pointer;" (click)="logout()">
+      <img src="/assets/images/home.png"  style="width:40px; padding-left: 10px;" >
+    </a>
+    </li>
+
+  </div>
+</nav>
+<div class="jumbotron p-1 p-sm-1">
+  <div class="container">
+    <h2>Welcome Chief Dr {{userObj?.last_name}} {{userObj?.first_name}}</h2>
+  </div>
+</div>

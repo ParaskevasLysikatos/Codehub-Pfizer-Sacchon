@@ -271,19 +271,19 @@ class UserController extends Controller
 
         if ($needDoc) {
             $result = $result->where('accountType', AccountTypeEnum::DOCTOR)
-                ->whereDate('last_login', '<', Carbon::now()->subDays(15))
-                ->get();
+            ->whereDate('last_login', '<=', Carbon::now()->subDays(5))
+            ->get();
 
             return $this->success([
-                'exprired' => $result
+                'expired' => $result
             ]);
         } else {
             $result = $result->where('accountType', AccountTypeEnum::PATIENT)
-                ->whereDate('last_login', '<', Carbon::now()->subDays(15))
+                ->whereDate('last_login', '<=', Carbon::now()->subDays(5))
                 ->get();
 
             return $this->success([
-                'exprired' => $result
+                'expired' => $result
             ]);
         }
     }

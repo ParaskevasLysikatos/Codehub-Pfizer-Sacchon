@@ -45,7 +45,6 @@ export class DoctorAccComponent {
 
   }
   // convenience getter for easy access to form fields
-   // convenience getter for easy access to form fields
    get first_name() {
     return this.userForm.get('first_name');
   }
@@ -96,9 +95,18 @@ export class DoctorAccComponent {
   }
 
   getUserData(){
+    if(this.Uservice.subject_curr_user$.value.id==0){
     this.Uservice.getUserData('').pipe(map((res)=>res.data.user)).subscribe(
-      data=>{ this.userForm.patchValue(data);console.log(data.gender); this.submitted = false;});
-      }
+      data=>{ this.userForm.patchValue(data);console.log(data.gender); this.submitted = false;
+        this.Uservice.subject_curr_user$.next(data);
+      });
+    }
+    else{
+      this.userForm.patchValue(this.Uservice.subject_curr_user$.value);
+      this.submitted = false;
+    }
+
+    }
 
 
   editDoctor(){
@@ -111,9 +119,9 @@ export class DoctorAccComponent {
     }
 
     let Obj = this.userForm.value;
-    Obj['email']=localStorage.getItem('email');
-    Obj['accountType']=localStorage.getItem('LoginRole');
-    Obj['amka']=localStorage.getItem('amka');
+    Obj['email']=this.Uservice.subject_curr_user$.value.email;
+    Obj['accountType']=this.Uservice.subject_curr_user$.value.accountType;
+    Obj['amka']=this.Uservice.subject_curr_user$.value.amka;
 
    this.Uservice.editUserData(Obj).subscribe(
     (data:any)=>{
@@ -127,7 +135,10 @@ export class DoctorAccComponent {
   deleteDoctor(){
     this.Uservice.deleteUser().subscribe(
       res=>{
-        localStorage.clear();
+        this.Uservice.subject_curr_user$.next(this.Uservice.subject_curr_userClear$.value);
+      console.log( this.Uservice.subject_curr_user$.value);
+      localStorage.clear();
+
         alert("delete user success");
         this._router.navigate(['/login']);
       },error=>alert(error.error.message)

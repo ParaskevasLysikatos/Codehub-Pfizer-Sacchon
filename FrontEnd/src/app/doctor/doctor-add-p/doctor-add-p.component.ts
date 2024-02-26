@@ -32,7 +32,7 @@ export class DoctorAddPComponent {
 
   addPatient(id:number){
     let Obj={doctor_id:'',patient_id:''};
-      Obj['doctor_id']= String(localStorage.getItem('id'));
+      Obj['doctor_id']= String(this.Uservice.subject_curr_user$.value.id);
       Obj['patient_id']= String(id);
 
       this.Uservice.addFreePatient(Obj).subscribe(

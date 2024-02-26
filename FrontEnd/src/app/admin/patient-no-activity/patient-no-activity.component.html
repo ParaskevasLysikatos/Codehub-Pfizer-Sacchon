@@ -1,0 +1,33 @@
+<app-admin-nav></app-admin-nav>
+
+<div class="container">
+  <h5 class="title text-center" style="padding-bottom: 15px">
+    In this page as a Chief Doctor would be able to view the list of the
+    patients with no activity over 5 Days.
+  </h5>
+</div>
+<div class="container">
+  <h5 class="display-5" style="padding: 1%; text-align: Center">
+    Patient activity
+  </h5>
+  <table id="search" class="table table-hover table-responsive-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID Patient</th>
+        <th scope="col">Patient fullname</th>
+        <th scope="col">Last Login Date</th>
+        <th scope="col">Amka</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let medi of mediData; let i = index">
+      <tr>
+        <th class="scope">{{ i + 1 }}</th>
+        <td>{{ medi.id }}</td>
+        <td>{{ medi.last_name + " " + medi.first_name }}</td>
+        <td>{{ medi.last_login | date : "medium" }}</td>
+        <td>{{ medi.amka }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

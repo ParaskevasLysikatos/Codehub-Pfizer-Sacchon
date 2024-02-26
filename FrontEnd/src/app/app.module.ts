@@ -12,7 +12,6 @@ import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 import { PatientModule } from './patient/patient.module';
 import { DoctorComponent } from './doctor/doctor.component';
 import { DoctorNavComponent } from './doctor/doctor-nav/doctor-nav.component';
@@ -25,6 +24,11 @@ import { DoctorConsultPComponent } from './doctor/doctor-consult-p/doctor-consul
 import { DoctorAccComponent } from './doctor/doctor-acc/doctor-acc.component';
 import { DoctorAddPComponent } from './doctor/doctor-add-p/doctor-add-p.component';
 import { FrontEndGuardA } from './services/guardA';
+import { AdminComponent } from './admin/admin.component';
+import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
+import { PatientNoActivityComponent } from './admin/patient-no-activity/patient-no-activity.component';
+import { AdminNoActivityComponent } from './admin/admin-no-activity/admin-no-activity.component';
+import { AdminConsultWaitComponent } from './admin/admin-consult-wait/admin-consult-wait.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -36,13 +40,17 @@ PlotlyModule.plotlyjs = PlotlyJS;
     RegisterComponent,
     FooterComponent,
     LoginComponent,
-    LogoutComponent,
     DoctorComponent,
     DoctorNavComponent,
     DoctorViewPComponent,
     DoctorConsultPComponent,
     DoctorAccComponent,
     DoctorAddPComponent,
+    AdminComponent,
+    AdminNavComponent,
+    PatientNoActivityComponent,
+    AdminNoActivityComponent,
+    AdminConsultWaitComponent,
   ],
   imports: [
     BrowserModule,

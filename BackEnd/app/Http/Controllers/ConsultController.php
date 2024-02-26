@@ -99,7 +99,7 @@ class ConsultController extends Controller
 
         $userPat= User::where('amka', $request->amka)->first();
 
-        $consultations=Consultation::where('user_id',$userPat->id)->whereBetween('registerDate', [$request->startAt, $request->endAt])->get();
+        $consultations=Consultation::where('user_id',$userPat->id)->whereBetween('registerDate', [$request->startAt, $request->endAt])->with('user')->get();
 
         return $this->success([
             'pat_consulations' => $consultations,
@@ -108,11 +108,12 @@ class ConsultController extends Controller
 
     public function waitForDays(){
 
-        $consultationsLastForEveryPat=Consultation::select('user_id','registerDate')->groupBy('user_id')->latest()->get();
+        $consultationsLastForEveryPat=Consultation::select('user_id','registerDate')->groupBy('user_id')->latest()->with('user')->get();
 
         $consultationsWaitDays=$consultationsLastForEveryPat->map(function($con){
            // if(Carbon::parse($con->registerDate)->diff(now())->format('%a')>4){
             return[
+                'patient_info'=>$con->user,
                 'patient_id'=>$con->user_id,
                 'registerDate'=>$con->registerDate,
                 'daysFromLastConsultation'=>  Carbon::parse($con->registerDate)->diff(now())->format('%a')

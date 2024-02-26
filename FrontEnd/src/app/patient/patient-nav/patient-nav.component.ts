@@ -13,7 +13,10 @@ export class PatientNavComponent {
 
 logout(){
   this.Uservice.logoutUser().subscribe( (res)=>{
+    this.Uservice.subject_curr_user$.next(this.Uservice.subject_curr_userClear$.value);
+    console.log( this.Uservice.subject_curr_user$.value);
     localStorage.clear();
+
     this.router.navigate(['login']);
   });
 }

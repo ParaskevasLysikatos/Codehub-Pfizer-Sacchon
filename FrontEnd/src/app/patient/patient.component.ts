@@ -16,18 +16,20 @@ export class PatientComponent {
   userObj?:IUser;
 
 ngOnInit(): void {
-  //this.userObj=this.Uservice.subject_curr_user$.value;
-  this.Uservice.getUserData(localStorage.getItem('id') ?? '').pipe(map(res=>res.data.user)).subscribe(
-   (data:IUser)=>{
-      this.userObj=data;
 
-        });
 
-  // this.Uservice.subject_curr_user$.subscribe(
-  //  (data:IUser)=>{
-  //     this.userObj=data;
+  if(this.Uservice.subject_curr_user$.value.id==0){
+    this.Uservice.getUserData('').pipe(map((res)=>res.data.user)).subscribe(
+   data=>{
+     this.userObj=data;
+     this.Uservice.subject_curr_user$.next(data);
+   });
+ }
+ else{
+  this.userObj=this.Uservice.subject_curr_user$.value;
+   console.log(this.userObj);
+ }
 
-  //       });
 }
 
 }
